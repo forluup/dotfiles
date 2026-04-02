@@ -28,6 +28,74 @@
           "vertical" : 0
         }
       }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "trackpad",
+          "productID" : "0x0",
+          "productName" : "Apple Internal Keyboard \/ Trackpad",
+          "vendorID" : "0x0"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.9689,
+        "disableAcceleration" : false,
+        "redirectsToScroll" : false,
+        "speed" : "unset"
+      },
+      "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : "auto"
+        },
+        "speed" : {
+          "vertical" : 0
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0x1007",
+          "productName" : "Game Mouse",
+          "vendorID" : "0x258a"
+        }
+      },
+      "pointer" : {
+        "disableAcceleration" : true
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : true
+        }
+      }
+    },
+    {
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0x1bac",
+          "productName" : "CORSAIR KATAR PRO XT Gaming Mouse",
+          "serialNumber" : "0802401BAF7B18675F71E6BDF5001BC7",
+          "vendorID" : "0x1b1c"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.5,
+        "disableAcceleration" : true
+      },
+      "scrolling" : {
+        "acceleration" : 1,
+        "distance" : 3,
+        "reverse" : {
+          "vertical" : true
+        },
+        "speed" : 0
+      }
     }
   ]
 }

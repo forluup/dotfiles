@@ -8,9 +8,9 @@ if command -v nowplaying-cli &> /dev/null; then
     TITLE="$(nowplaying-cli get title)"
     ARTIST="$(nowplaying-cli get artist)"
     MEDIA="$TITLE - $ARTIST"
-    sketchybar --set "$NAME" label="$MEDIA"
+    sketchybar --set "$NAME" label="$MEDIA" drawing=on
   else
-    sketchybar --set "$NAME" label=""
+    sketchybar --set "$NAME" drawing=off
   fi
 else
   # Fallback to AppleScript for Spotify
@@ -19,8 +19,8 @@ else
     TITLE="$(osascript -e 'tell application "Spotify" to name of current track as string' 2>/dev/null)"
     ARTIST="$(osascript -e 'tell application "Spotify" to artist of current track as string' 2>/dev/null)"
     MEDIA="$TITLE - $ARTIST"
-    sketchybar --set "$NAME" label="$MEDIA"
+    sketchybar --set "$NAME" label="$MEDIA" drawing=on
   else
-    sketchybar --set "$NAME" label=""
+    sketchybar --set "$NAME" drawing=off
   fi
 fi

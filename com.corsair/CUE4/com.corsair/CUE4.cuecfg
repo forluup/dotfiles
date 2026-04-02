@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<map name="Backup">
+		<value name="Version">4.33.138</value>
+	</map>
+	<map name="CommonSettings">
+		<value name="DemoDeviceModeEnabled">false</value>
+	</map>
+	<map name="DataCollectionSettings">
+		<value name="configuration_loaded_date">2026-03-18T16:17:39.702</value>
+		<value name="dataConsent">true</value>
+		<value name="iCueSettingsEventHash">307c8c245d31c48baf1b1d89bc886e16</value>
+		<value name="iCueSettingsEventSent">false</value>
+		<value name="inited">true</value>
+		<value name="machine_id">e05b375e1b4f8e896146551bc4e4706a</value>
+		<value name="previous_close_timestamp">1773941804847</value>
+		<value name="session_ended">true</value>
+		<value name="total_icue_starts">3</value>
+		<value name="user_id">70020f16c4d9e335d83db03db2d043521b66d39d9f98410777f1e40f92975745</value>
+	</map>
+	<map name="DeviceListWatcher">
+		<value name="device_list_saved_correctly">false</value>
+	</map>
+	<map name="Devices">
+		<map name="KATAR PRO XT">
+			<map name="{28ce6c0e-26f9-45d1-8b08-19d622f97cbe}">
+				<value name="BrightnessLevel">100</value>
+				<value name="FirstDetected">2026-03-18T22:51:59.813Z</value>
+				<binary name="Layout">%00%00%04%00%00%00%00%00%1Ccue%3A%3Aglobal%3A%3AKeyboardLayout%00%00%00%00%02%001</binary>
+				<binary name="LedChannelCounts">%00%00%04%00%00%00%00%00%0DQVector%3Cint%3E%00%00%00%00%00</binary>
+				<binary name="LedChannelExtensionsTypes">%00%00%04%00%00%00%00%006QVector%3CQVector%3Ccue%3A%3Adev%3A%3Amanifest%3A%3ALedChannelType%3E%20%3E%00%00%00%00%01%00%00%00%00</binary>
+				<binary name="LedChannelSynchronizations">%00%00%04%00%00%00%00%00%0EQVector%3Cbool%3E%00%00%00%00%00</binary>
+				<binary name="LedChannelTypeCombinations">%00%00%04%00%00%00%00%006QVector%3CQVector%3Ccue%3A%3Adev%3A%3Amanifest%3A%3ALedChannelType%3E%20%3E%00%00%00%00%00</binary>
+				<binary name="LedChannelTypes">%00%00%04%00%00%00%00%00%2CQVector%3Ccue%3A%3Adev%3A%3Amanifest%3A%3ALedChannelType%3E%00%00%00%00%01%00%00%00%0CNotConnected</binary>
+				<value name="LightingMode">Software</value>
+				<value name="UniqueDeviceId">{e0fc94c7-b80d-45b8-acdf-9a6e079f69fc}</value>
+			</map>
+		</map>
+		<binary name="UniqueDeviceIds">%00%00%04%00%00%00%00%005QHash%3CQUuid%2CUniqueDeviceIdStorage%3A%3AUniqueDeviceData%3E%00%00%00%00%01%28%CEl%0E%26%F9E%D1%8B%08%19%D6%22%F9%7C%BE%00%00%1B%1C%00%00%1B%AC%00%00%00%40%000%008%000%002%004%000%001%00B%00A%00F%007%00B%001%008%006%007%005%00F%007%001%00E%006%00B%00D%00F%005%000%000%001%00B%00C%007%FF%FF%FF%FF</binary>
+	</map>
+	<value name="Language">en</value>
+	<value name="LastDataCollectionConsentAppVersion">4.33.138</value>
+	<value name="LastLoadedAppVersion">4.33.138</value>
+	<map name="LightingLibraryStorage">
+		<value name="version">401</value>
+	</map>
+	<map name="Lightings">
+		<map name="Instant">
+			<value name="Enabled">false</value>
+		</map>
+	</map>
+	<map name="Privacy">
+		<value name="DataCollectionConsent">true</value>
+		<value name="DataCollectionConsentTimestamp">18 Mar 2026 15:51:59 -0700</value>
+	</map>
+	<map name="Storage Locations">
+		<value name="-Users-jessetran-Library-Application Support-Corsair-CUE4-dpi-dpi.cuelibrary">true</value>
+		<value name="-Users-jessetran-Library-Application Support-Corsair-CUE4-hwlightings-hwProfileLightings">true</value>
+		<value name="-Users-jessetran-Library-Application Support-Corsair-CUE4-quicklightingzones-quickLightingZones">true</value>
+		<value name="-Users-jessetran-Library-Application Support-Corsair-CUE4-sensors-UserProps">true</value>
+	</map>
+	<map name="SwUpdate">
+		<value name="LastCheckDate">2026-03-31</value>
+	</map>
+	<value name="defaultProfile">{6cd71b5b-3931-40b3-b349-10604b36d69e}</value>
+</config>

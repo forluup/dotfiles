@@ -55,10 +55,10 @@ alt - f : yabai -m window --focus mouse && \
 shift + alt - f : yabai -m window --toggle native-fullscreen
 
 # increase gap in focused space
-alt - g : yabai -m space --gap rel:10
+alt - g : yabai -m space --gap rel:5
 
 # decrease gap in focused space
-shift + alt - g : yabai -m space --gap rel:-10
+shift + alt - g : yabai -m space --gap rel:-5
 
 # create a new space and follow focus
 alt - n : yabai -m space --create && \
@@ -72,7 +72,7 @@ shift + alt - n : yabai -m space --create && \
                   yabai -m space --focus "${index}"
 
 # balance size of windows
-shift + alt - 0 : yabai -m space --balance
+shift + alt - e : yabai -m space --balance
 
 # swap window
 shift + alt - h : yabai -m window --swap west

@@ -5,7 +5,7 @@ sketchybar --add item media e \
                        position=left \
                        offset=-20 \
                        label.color=$ACCENT_COLOR \
-                       label.max_chars=20 \
+                       label.max_chars=35 \
                        scroll_texts=on \
                        icon=􀑪 \
                        icon.color=$ACCENT_COLOR \
