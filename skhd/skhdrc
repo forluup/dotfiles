@@ -5,10 +5,12 @@ cmd - return : open -n -a "iTerm"
 cmd + shift - return : open -n -a "Google Chrome" 
 
 # moves focus between windows in the current focused display
-alt - h : yabai -m window --focus west || yabai -m display --focus prev || yabai -m display --focus last
+# when crossing to another display, warp the cursor there so macOS treats it
+# as the active display (makes ctrl+arrow space switching work)
+alt - h : yabai -m window --focus west || { yabai -m config mouse_follows_focus on; yabai -m display --focus prev || yabai -m display --focus last; yabai -m config mouse_follows_focus off; }
 alt - j : yabai -m window --focus south || yabai -m window --focus north
 alt - k : yabai -m window --focus north || yabai -m window --focus south
-alt - l : yabai -m window --focus east || yabai -m display --focus next || yabai -m display --focus first
+alt - l : yabai -m window --focus east || { yabai -m config mouse_follows_focus on; yabai -m display --focus next || yabai -m display --focus first; yabai -m config mouse_follows_focus off; }
 
 # moves focus between spaces 
 alt - 1 : yabai -m space --focus 1
