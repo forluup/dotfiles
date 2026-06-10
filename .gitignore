@@ -1,0 +1,2 @@
+# gh rewrites this and it can contain an auth token if the keychain is unavailable
+gh/hosts.yml
