@@ -75,6 +75,18 @@
       }
     },
     {
+      "buttons" : {
+        "mappings" : [
+          {
+            "action" : "mouse.button.left",
+            "button" : 0,
+            "command" : false,
+            "control" : true,
+            "option" : false,
+            "shift" : false
+          }
+        ]
+      },
       "if" : {
         "device" : {
           "category" : "mouse",
@@ -85,7 +97,7 @@
         }
       },
       "pointer" : {
-        "acceleration" : 0.5,
+        "acceleration" : 0.43,
         "disableAcceleration" : true
       },
       "scrolling" : {
@@ -95,6 +107,69 @@
           "vertical" : true
         },
         "speed" : 0
+      }
+    },
+    {
+      "buttons" : {
+        "mappings" : [
+          {
+            "action" : "mouse.button.left",
+            "button" : 0,
+            "command" : false,
+            "control" : true,
+            "option" : false,
+            "repeat" : false,
+            "shift" : false
+          }
+        ]
+      },
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xfa60",
+          "productName" : "2.4G Wireless Device",
+          "vendorID" : "0x1d57"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.3,
+        "disableAcceleration" : true
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : true
+        }
+      }
+    },
+    {
+      "buttons" : {
+        "mappings" : [
+          {
+            "action" : "mouse.button.left",
+            "button" : 0,
+            "command" : false,
+            "control" : true,
+            "option" : false,
+            "shift" : false
+          }
+        ]
+      },
+      "if" : {
+        "device" : {
+          "category" : "mouse",
+          "productID" : "0xfa61",
+          "productName" : "USB Gaming Mouse",
+          "vendorID" : "0x1d57"
+        }
+      },
+      "pointer" : {
+        "acceleration" : 0.3,
+        "disableAcceleration" : true
+      },
+      "scrolling" : {
+        "reverse" : {
+          "vertical" : true
+        }
       }
     }
   ]
