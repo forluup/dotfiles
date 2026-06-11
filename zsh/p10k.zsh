@@ -192,7 +192,7 @@
 
   #################################[ os_icon: os identifier ]##################################
   # OS identifier color.
-  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#c9adff'
+  typeset -g POWERLEVEL9K_OS_ICON_FOREGROUND='#ddc9ff'
   typeset -g POWERLEVEL9K_OS_ICON_BACKGROUND='#004d6b'
   # Custom icon.
   # typeset -g POWERLEVEL9K_OS_ICON_CONTENT_EXPANSION='⭐'
@@ -362,7 +362,7 @@
 
   #####################################[ vcs: git status ]######################################
   # Version control background colors.
-  typeset -g POWERLEVEL9K_VCS_FOREGROUND='#c9adff'
+  typeset -g POWERLEVEL9K_VCS_FOREGROUND='#ddc9ff'
   typeset -g POWERLEVEL9K_VCS_CLEAN_BACKGROUND='#004d6b'
   typeset -g POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='#004d6b'
   typeset -g POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='#004d6b'
@@ -395,8 +395,8 @@
     fi
 
     # Styling for different parts of Git status.
-    local       meta='%F{#a18ad6}' # muted lavender foreground
-    local      clean='%F{#c9adff}' # light lavender foreground
+    local       meta='%F{#b8a3e8}' # muted lavender foreground
+    local      clean='%F{#ddc9ff}' # light lavender foreground
     local   modified='%F{#f97716}' # neon orange foreground
     local  untracked='%F{#1dfca1}' # neon green foreground
     local conflicted='%F{#ff2453}' # neon red foreground
@@ -1759,7 +1759,7 @@
 
   ####################################[ time: current time ]####################################
   # Current time color.
-  typeset -g POWERLEVEL9K_TIME_FOREGROUND='#c9adff'
+  typeset -g POWERLEVEL9K_TIME_FOREGROUND='#ddc9ff'
   typeset -g POWERLEVEL9K_TIME_BACKGROUND='#004d6b'
   # Format for the current time: 09:51:02. See `man 3 strftime`.
   typeset -g POWERLEVEL9K_TIME_FORMAT='%D{%I:%M:%S %p}'
