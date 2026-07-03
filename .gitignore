@@ -6,6 +6,9 @@ zsh/.zcompdump*
 zsh/.zsh_history
 zsh/.zprofile.zwc
 
+# iTerm2 runtime sockets (recreated per-machine)
+iterm2/sockets
+
 # macOS
 .DS_Store
 
