@@ -1,14 +1,20 @@
 # gh rewrites this and it can contain an auth token if the keychain is unavailable
 gh/hosts.yml
 
+# macOS
+.DS_Store
+
 # Machine-generated zsh files (ZDOTDIR points here, so zsh writes into the repo)
 zsh/.zcompdump*
+zsh/*.zwc
 zsh/.zsh_history
-zsh/.zprofile.zwc
 
 # iTerm2 runtime sockets (recreated per-machine)
 iterm2/sockets
 
-# macOS
-.DS_Store
+# app-generated state
+cagent/
+com.corsair/
 
+# local backups
+yabai/disabled-launchagents/

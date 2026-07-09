@@ -1,8 +1,5 @@
 yabai -m config layout bsp
 
-# New window spawns to the left if vertical split, or top if horizontal split
-yabai -m config window_placement first_child
-
 # New window spawns to the right if vertical split, or bottom if horizontal split
 yabai -m config window_placement second_child
 
@@ -20,7 +17,5 @@ yabai -m config --space 2 window_gap 0
 yabai -m config auto_balance off
 
 yabai -m signal --add event=window_minimized active=yes action="if \$(yabai -m query --windows --window \$YABAI_WINDOW_ID | jq -r '.\\\"is-floating\\\"'); then yabai -m query --windows --window &> /dev/null || yabai -m window --focus mouse &> /dev/null || yabai -m window --focus \$(yabai -m query --windows --space | jq .[0].id) &> /dev/null; fi"
-
-yabai -m config window_wrap on
 
 yabai -m config external_bar all:32:0

@@ -139,8 +139,17 @@
         "disableAcceleration" : true
       },
       "scrolling" : {
+        "acceleration" : {
+          "vertical" : 1
+        },
+        "distance" : {
+          "vertical" : 3
+        },
         "reverse" : {
           "vertical" : true
+        },
+        "speed" : {
+          "vertical" : 0
         }
       }
     },
