@@ -225,8 +225,8 @@ atuin-fzf() {
     fzf --read0 --height=40% --min-height=20+ --layout=reverse --scheme=history \
         --query="$LBUFFER" --border-label=' history ' \
         --preview 'bat --color=always -pl bash --style=plain <<< {}' \
-        --preview-window 'down,3,wrap,border-top' \
-        --bind 'focus:transform:n=$(printf %s {} | grep -c ""); echo "change-preview-window(down,$(( n < 2 ? 3 : (n > 14 ? 14 : n + 2) )),wrap,border-top)"')
+        --preview-window 'up,1,wrap,border-bottom' \
+        --bind 'focus:transform:n=$(printf %s {} | grep -c ""); echo "change-preview-window(up,$(( n < 1 ? 1 : (n > 14 ? 14 : n) )),wrap,border-bottom)"')
   # ponytail: sizes by newline count only; a very long single-line command that
   # soft-wraps past 3 rows still gets 3. Use FZF_COLUMNS + awk length() if that bites.
   if [[ -n $sel ]]; then
