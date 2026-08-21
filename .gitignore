@@ -8,9 +8,11 @@ gh/hosts.yml
 zsh/.zcompdump*
 zsh/*.zwc
 zsh/.zsh_history
+zsh/.zsh_sessions/
 
-# iTerm2 runtime sockets (recreated per-machine)
+# iTerm2 machine-specific paths (recreated per-machine)
 iterm2/sockets
+iterm2/AppSupport
 
 # app-generated state
 cagent/
