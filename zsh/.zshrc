@@ -95,6 +95,8 @@ source $ZSH/oh-my-zsh.sh
 #   export EDITOR='nvim'
 # fi
 
+export EDITOR=nvim VISUAL=nvim
+
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
 
@@ -138,6 +140,12 @@ export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
+# -- Previews (bat for files, eza for dirs) --
+
+export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {} 2>/dev/null || eza --tree --icons --level=2 --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --level=2 --color=always {}'"
+zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always $realpath 2>/dev/null || eza --tree --icons --color=always $realpath'
+
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
 # - The first argument to the function ($1) is the base path to start traversal
 # - See the source code (completion.{bash,zsh}) for the details.
@@ -168,6 +176,10 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 eval "$(zoxide init zsh)"
 
+# ---- Direnv (per-directory env) -----
+
+eval "$(direnv hook zsh)"
+
 # ---- Zsh syntax highlighting (cyberpunk neon) -----
 
 typeset -A ZSH_HIGHLIGHT_STYLES
@@ -196,7 +208,7 @@ ZSH_HIGHLIGHT_STYLES[comment]='fg=#5c7a8a,italic'
 # Enable zsh-autosuggestions
 source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#3b6a7a'  # muted teal ghost text
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+[[ $commands[kubectl] && ! -f $ZSH_CACHE_DIR/completions/_kubectl ]] && kubectl completion zsh > $ZSH_CACHE_DIR/completions/_kubectl
 
 # ---- Atuin (better history on Ctrl-R; up-arrow left to substring search) -----
 
