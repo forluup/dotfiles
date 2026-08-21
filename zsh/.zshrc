@@ -129,7 +129,7 @@ export FZF_DEFAULT_OPTS="
   --color=hl:#eb46f9,hl+:#eb46f9,info:#af87ff,header:#af87ff
   --color=prompt:#2cf9ed,pointer:#2cf9ed,spinner:#2cf9ed
   --color=marker:#1dfca1,border:#003547,gutter:#001f30
-  --border=rounded"
+  --border=rounded --border-label-pos=2"
 
 # Make fzf-tab use the same colors
 zstyle ':fzf-tab:*' use-fzf-default-opts yes
@@ -142,8 +142,11 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 
 # -- Previews (bat for files, eza for dirs) --
 
-export FZF_CTRL_T_OPTS="--preview 'bat -n --color=always {} 2>/dev/null || eza --tree --icons --level=2 --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --icons --level=2 --color=always {}'"
+export FZF_CTRL_T_OPTS="--border-label=' files ' --preview 'bat -n --color=always {} 2>/dev/null || eza --tree --icons --level=2 --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
+export FZF_ALT_C_OPTS="--border-label=' dirs ' --preview 'eza --tree --icons --level=2 --color=always {}'"
+
+# Option-C sends 'ç' here, not ESC-c, so fzf's '\ec' binding never fires
+bindkey 'ç' fzf-cd-widget
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always $realpath 2>/dev/null || eza --tree --icons --color=always $realpath'
 
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
@@ -213,6 +216,27 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#3b6a7a'  # muted teal ghost text
 # ---- Atuin (better history on Ctrl-R; up-arrow left to substring search) -----
 
 eval "$(atuin init zsh --disable-up-arrow)"
+
+# ---- Atuin's history through fzf on Ctrl-R (atuin's own TUI: `atuin search -i`) -----
+
+atuin-fzf() {
+  local sel
+  sel=$(atuin search --cmd-only --print0 --limit 5000 2>/dev/null |
+    fzf --read0 --height=40% --min-height=20+ --layout=reverse --scheme=history \
+        --query="$LBUFFER" --border-label=' history ' \
+        --preview 'bat --color=always -pl bash --style=plain <<< {}' \
+        --preview-window 'down,3,wrap,border-top' \
+        --bind 'focus:transform:n=$(printf %s {} | grep -c ""); echo "change-preview-window(down,$(( n < 2 ? 3 : (n > 14 ? 14 : n + 2) )),wrap,border-top)"')
+  # ponytail: sizes by newline count only; a very long single-line command that
+  # soft-wraps past 3 rows still gets 3. Use FZF_COLUMNS + awk length() if that bites.
+  if [[ -n $sel ]]; then
+    BUFFER=$sel
+    CURSOR=$#BUFFER
+  fi
+  zle reset-prompt
+}
+zle -N atuin-fzf
+bindkey '^R' atuin-fzf
 
 # ---- History substring search (type a prefix, then up/down arrows) -----
 
