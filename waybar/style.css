@@ -17,7 +17,6 @@ window#waybar {
 
 /* sketchybar --default: item bg, corner_radius 5, height 24, padding 5/10 */
 #cpu,
-#battery,
 #wireplumber,
 #clock,
 #tray {
@@ -76,18 +75,6 @@ window#waybar.empty #window {
   background: transparent;
   color: #2cf9ed;
   padding: 0 10px;
-}
-
-#battery.warning {
-  color: #f97716;
-}
-
-#battery.critical {
-  color: #ff2453;
-}
-
-#battery.charging {
-  color: #1dfca1;
 }
 
 #wireplumber.muted {

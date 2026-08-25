@@ -1,0 +1,87 @@
+// Cyberpunk neon — same palette as waybar/style.css and sketchybar/colors.sh.
+// The reference rice generates its colors from the wallpaper (Material You);
+// these are fixed, to stay in step with bat, fzf, eza, zsh and ghostty.
+
+$ground:   #001f30;
+$surface:  #003547;
+$accent:   #2cf9ed;
+$magenta:  #eb46f9;
+$lavender: #af87ff;
+$fg:       #e6f7f5;
+$muted:    #5c7a8a;
+
+* {
+  all: unset;
+  font-family: "Hack Nerd Font", monospace;
+}
+
+// same chip treatment as the waybar modules, scaled up
+.card {
+  background-color: $ground;
+  border: 2px solid $surface;
+  border-radius: 12px;
+  padding: 16px;
+  color: $fg;
+}
+
+.big-clock {
+  font-size: 44px;
+  font-weight: bold;
+  color: $accent;
+}
+
+.sub {
+  font-size: 13px;
+  color: $lavender;
+}
+
+.weather {
+  font-size: 12px;
+  color: $muted;
+}
+
+.cal {
+  padding-top: 6px;
+  color: $fg;
+  font-size: 12px;
+
+  &:selected {          // today
+    background-color: $accent;
+    color: $ground;
+    border-radius: 4px;
+  }
+  &.header { color: $lavender; font-weight: bold; }
+  &.highlight { color: $magenta; }
+}
+
+// right-hand pill stack
+.metric-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: $accent;
+}
+
+.metric-name {
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: $muted;
+}
+
+.metric-bar {
+  background-color: $surface;
+  border-radius: 3px;
+  min-height: 5px;
+
+  progress {
+    background-color: $accent;
+    border-radius: 3px;
+  }
+}
+
+.now {
+  padding: 10px 18px;
+  border-radius: 20px;
+}
+
+.now-icon { font-size: 14px; color: $magenta; }
+.now-text { font-size: 13px; color: $accent; }

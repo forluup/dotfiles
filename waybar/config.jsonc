@@ -1,18 +1,21 @@
 // waybar — port of sketchybar/. Same layout, same cyberpunk-neon teal scheme:
 //   left:   workspaces (with per-workspace app icons) + focused window
 //   center: mpris (replaces nowplaying-cli media item)
-//   right:  cpu, battery, volume, tray, clock
+//   right:  cpu, volume, tray, clock
 {
   "layer": "top",
   "position": "top",
   "height": 37,
   "spacing": 5,
-  "margin-left": 10,
-  "margin-right": 10,
+  // 7 to match hyprland's gaps_out sides, so the bar's edges line up with the
+  // windows below it. (sketchybar used padding_left/right=10 on a full-width
+  // bar; this is a floating bar instead, aligned to the tiling.)
+  "margin-left": 7,
+  "margin-right": 7,
 
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["mpris"],
-  "modules-right": ["cpu", "battery", "wireplumber", "tray", "clock"],
+  "modules-right": ["cpu", "wireplumber", "tray", "clock"],
 
   // sketchybar items/spaces.sh + plugins/space_windows.sh: fixed 1-10 with an
   // app-icon strip. window-rewrite is the icon_map_fn.sh equivalent.
@@ -54,14 +57,6 @@
   "cpu": {
     "interval": 2,
     "format": " {usage}%"
-  },
-
-  "battery": {
-    "interval": 30,
-    "states": { "warning": 20, "critical": 10 },
-    "format": "{icon} {capacity}%",
-    "format-charging": " {capacity}%",
-    "format-icons": ["", "", "", "", ""]
   },
 
   "wireplumber": {

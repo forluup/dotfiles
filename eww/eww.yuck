@@ -1,0 +1,60 @@
+;; eww — desktop widgets, ported from the Material 3 rice's layout but kept in
+;; the cyberpunk-neon palette rather than Material You's wallpaper-derived one.
+;;
+;; Layout mirrors the reference: clock + weather + calendar down the left,
+;; system pills down the right, now-playing along the bottom.
+;;
+;; These live on the BACKGROUND layer, so tiled windows cover them — you see
+;; them on an empty workspace, which is what a desktop widget means in a tiler.
+;; Change :stacking "bg" to "fg" on any window to float it over windows instead.
+
+;; ---- data -------------------------------------------------------------------
+;; CPU/RAM/DISK need no polling: eww ships them as auto-updating built-ins.
+(defpoll clock-time :interval "10s" `date +'%H:%M'`)
+(defpoll clock-date :interval "1h"  `date +'%A, %d/%m'`)
+(defpoll weather    :interval "15m" :initial "…" `curl -sf 'wttr.in/?format=%t+%C' | tr -d '+'`)
+(defpoll nowplaying :interval "3s"  :initial ""
+  `playerctl --player spotify metadata --format '{{title}} — {{artist}}' 2>/dev/null`)
+
+;; ---- widgets ----------------------------------------------------------------
+(defwidget dash []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 10
+    (label :class "big-clock" :text clock-time)
+    (label :class "sub"       :text clock-date)
+    (label :class "weather"   :text weather :limit-width 26)
+    (calendar :class "cal")))
+
+(defwidget metric [name value]
+  (box :class "metric" :orientation "v" :space-evenly false :spacing 3
+    (label    :class "metric-value" :text "${round(value, 0)}%")
+    (label    :class "metric-name"  :text name)
+    (progress :class "metric-bar"   :value value)))
+
+(defwidget stats []
+  (box :class "card" :orientation "v" :space-evenly false :spacing 16
+    (metric :name "CPU"  :value {EWW_CPU.avg})
+    (metric :name "RAM"  :value {EWW_RAM.used_mem_perc})
+    (metric :name "DISK" :value {EWW_DISK["/"].used_perc})))
+
+(defwidget now []
+  (box :class "card now" :space-evenly false :spacing 10
+    (label :class "now-icon" :text "♫")
+    (label :class "now-text" :text nowplaying :limit-width 44)))
+
+;; ---- windows ----------------------------------------------------------------
+;; x/y match hyprland's gaps (7 at the sides, 48 = 37px bar + 11px top gap) so
+;; the widgets line up with where tiled windows start.
+(defwindow dashboard
+  :monitor 0 :stacking "bg" :focusable false
+  :geometry (geometry :anchor "top left" :x "7px" :y "48px" :width "270px")
+  (dash))
+
+(defwindow metrics
+  :monitor 0 :stacking "bg" :focusable false
+  :geometry (geometry :anchor "top right" :x "7px" :y "48px" :width "130px")
+  (stats))
+
+(defwindow media
+  :monitor 0 :stacking "bg" :focusable false
+  :geometry (geometry :anchor "bottom center" :y "7px")
+  (now))

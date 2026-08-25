@@ -41,9 +41,9 @@ info "Using $AUR."
 info "Installing the Hyprland desktop..."
 $AUR -S --needed --noconfirm \
   hyprland hyprlock hypridle xdg-desktop-portal-hyprland \
-  waybar wofi mako \
+  waybar wofi mako eww \
   grim slurp wl-clipboard cliphist swayosd-git \
-  polkit-gnome qt5-wayland qt6-wayland brightnessctl playerctl \
+  polkit-gnome qt5-wayland qt6-wayland playerctl \
   pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol \
   networkmanager network-manager-applet \
   ttf-hack-nerd
@@ -96,7 +96,7 @@ if systemctl is-active --quiet systemd-networkd || systemctl is-active --quiet i
 else
   sudo systemctl enable --now NetworkManager
 fi
-# Lets swayosd-client read volume/brightness keys without root.
+# Lets swayosd-client read the volume keys without root.
 sudo systemctl enable --now swayosd-libinput-backend.service || \
   info "swayosd-libinput-backend not available; media keys still work via hyprland binds."
 systemctl --user enable --now pipewire pipewire-pulse wireplumber || true
