@@ -145,7 +145,8 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 export FZF_CTRL_T_OPTS="--border-label=' files ' --preview 'bat -n --color=always {} 2>/dev/null || eza --tree --icons --level=2 --color=always {}' --bind 'ctrl-/:change-preview-window(down|hidden|)'"
 export FZF_ALT_C_OPTS="--border-label=' dirs ' --preview 'eza --tree --icons --level=2 --color=always {}'"
 
-# Option-C sends 'ç' here, not ESC-c, so fzf's '\ec' binding never fires
+# macOS Option-C sends 'ç', not ESC-c, so fzf's '\ec' binding never fires there.
+# Harmless on Linux, where Alt-C already works.
 bindkey 'ç' fzf-cd-widget
 zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --color=always $realpath 2>/dev/null || eza --tree --icons --color=always $realpath'
 
@@ -208,8 +209,14 @@ ZSH_HIGHLIGHT_STYLES[redirection]='fg=#eb46f9'
 ZSH_HIGHLIGHT_STYLES[commandseparator]='fg=#eb46f9'
 ZSH_HIGHLIGHT_STYLES[comment]='fg=#5c7a8a,italic'
 
+# ---- Zsh plugin root (differs by platform) -----
+# Homebrew on macOS, /usr/share/zsh/plugins on Arch. Both `source` lines below
+# stay unguarded on purpose: a missing plugin should be a loud startup error.
+ZSH_PLUGINS=${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share}
+ZSH_PLUGINS=${ZSH_PLUGINS:-/usr/share/zsh/plugins}
+
 # Enable zsh-autosuggestions
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $ZSH_PLUGINS/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#3b6a7a'  # muted teal ghost text
 [[ $commands[kubectl] && ! -f $ZSH_CACHE_DIR/completions/_kubectl ]] && kubectl completion zsh > $ZSH_CACHE_DIR/completions/_kubectl
 
@@ -240,7 +247,7 @@ bindkey '^R' atuin-fzf
 
 # ---- History substring search (type a prefix, then up/down arrows) -----
 
-source /opt/homebrew/share/zsh-history-substring-search/zsh-history-substring-search.zsh
+source $ZSH_PLUGINS/zsh-history-substring-search/zsh-history-substring-search.zsh
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND='bg=#003547,fg=#2cf9ed,bold'

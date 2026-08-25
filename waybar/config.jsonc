@@ -1,0 +1,94 @@
+// waybar — port of sketchybar/. Same layout, same cyberpunk-neon teal scheme:
+//   left:   workspaces (with per-workspace app icons) + focused window
+//   center: mpris (replaces nowplaying-cli media item)
+//   right:  cpu, battery, volume, tray, clock
+{
+  "layer": "top",
+  "position": "top",
+  "height": 37,
+  "spacing": 5,
+  "margin-left": 10,
+  "margin-right": 10,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["mpris"],
+  "modules-right": ["cpu", "battery", "wireplumber", "tray", "clock"],
+
+  // sketchybar items/spaces.sh + plugins/space_windows.sh: fixed 1-10 with an
+  // app-icon strip. window-rewrite is the icon_map_fn.sh equivalent.
+  "hyprland/workspaces": {
+    "format": "{id}{windows}",
+    "format-window-separator": " ",
+    "window-rewrite-default": "",
+    "window-rewrite": {
+      "class<com.mitchellh.ghostty>": "",
+      "class<google-chrome>": "",
+      "class<firefox>": "",
+      "class<Slack>": "",
+      "class<Spotify>": "",
+      "class<code>": "",
+      "class<org.pwmt.zathura>": "",
+      "title<.*nvim.*>": "",
+      "title<.*lazygit.*>": ""
+    },
+    "persistent-workspaces": { "*": 10 }
+  },
+
+  // sketchybar items/front_app.sh
+  "hyprland/window": {
+    "format": "{class}",
+    "max-length": 30,
+    "separate-outputs": true
+  },
+
+  // sketchybar plugins/media.sh — Spotify only, matching the mac config.
+  // Drop "player" to show whatever is playing (Chrome, mpv, ...).
+  "mpris": {
+    "player": "spotify",
+    "format": "  {title} - {artist}",
+    "format-paused": "  {title} - {artist}",
+    "max-length": 35,
+    "on-click": "playerctl play-pause"
+  },
+
+  "cpu": {
+    "interval": 2,
+    "format": " {usage}%"
+  },
+
+  "battery": {
+    "interval": 30,
+    "states": { "warning": 20, "critical": 10 },
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "wireplumber": {
+    "format": "{icon} {volume}%",
+    "format-muted": " muted",
+    "format-icons": ["", "", ""],
+    "on-click": "swayosd-client --output-volume mute-toggle",
+    "on-click-right": "pavucontrol"
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
+  },
+
+  // sketchybar plugins/calendar.sh: date +'%a %d %b %I:%M %p'
+  "clock": {
+    "interval": 30,
+    "format": " {:%a %d %b %I:%M %p}",
+    "tooltip-format": "<tt>{calendar}</tt>",
+    "calendar": {
+      "mode": "month",
+      "format": {
+        "today": "<span color='#2cf9ed'><b>{}</b></span>",
+        "days": "<span color='#e6f7f5'>{}</span>",
+        "weekdays": "<span color='#af87ff'><b>{}</b></span>"
+      }
+    }
+  }
+}

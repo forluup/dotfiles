@@ -1,0 +1,52 @@
+/* Cyberpunk neon — same palette as waybar/style.css */
+
+window {
+  background-color: #001f30;
+  border: 2px solid #2cf9ed;
+  border-radius: 8px;
+  font-family: "Hack Nerd Font", monospace;
+  font-size: 14px;
+}
+
+#input {
+  background-color: #003547;
+  color: #e6f7f5;
+  border: none;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 8px;
+}
+
+#input:focus {
+  border: 1px solid #eb46f9;
+}
+
+#inner-box,
+#outer-box,
+#scroll {
+  background-color: transparent;
+  border: none;
+}
+
+#outer-box {
+  padding: 4px;
+}
+
+#entry {
+  padding: 8px 12px;
+  border-radius: 5px;
+  color: #e6f7f5;
+}
+
+#entry:selected {
+  background-color: #2cf9ed;
+  color: #001f30;
+}
+
+#text:selected {
+  color: #001f30;
+}
+
+#unselected {
+  color: #e6f7f5;
+}

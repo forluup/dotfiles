@@ -1,0 +1,13 @@
+# wofi — the Spotlight replacement (SUPER+Space), and the cliphist picker.
+show=drun
+prompt=
+width=600
+height=400
+location=center
+lines=10
+allow_markup=true
+allow_images=true
+insensitive=true
+term=ghostty
+hide_scroll=true
+no_actions=true

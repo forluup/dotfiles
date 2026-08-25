@@ -1,0 +1,22 @@
+# mako — notifications. macOS Notification Center had no config to port;
+# this just matches the neon scheme.
+
+font=Hack Nerd Font 11
+background-color=#001f30
+text-color=#e6f7f5
+border-color=#2cf9ed
+border-size=2
+border-radius=8
+padding=12
+margin=12
+anchor=top-right
+default-timeout=5000
+max-visible=5
+layer=overlay
+
+[urgency=low]
+border-color=#5c7a8a
+
+[urgency=critical]
+border-color=#ff2453
+default-timeout=0

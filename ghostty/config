@@ -1,0 +1,36 @@
+# Ghostty — replaces iTerm2. Cyberpunk neon, matching FZF_DEFAULT_OPTS,
+# EZA_COLORS and ZSH_HIGHLIGHT_STYLES in zsh/.zshrc.
+
+font-family = Hack Nerd Font
+font-size = 14
+
+background = #001f30
+foreground = #e6f7f5
+cursor-color = #2cf9ed
+selection-background = #003547
+selection-foreground = #ffffff
+
+palette = 0=#001f30
+palette = 1=#ff2453
+palette = 2=#1dfca1
+palette = 3=#f7fc17
+palette = 4=#15bdf9
+palette = 5=#eb46f9
+palette = 6=#2cf9ed
+palette = 7=#e6f7f5
+palette = 8=#5c7a8a
+palette = 9=#ff5c7a
+palette = 10=#5cfdba
+palette = 11=#fafd5c
+palette = 12=#5ccffa
+palette = 13=#f27dfb
+palette = 14=#7dfaf3
+palette = 15=#ffffff
+
+# Hyprland draws the borders.
+window-decoration = false
+window-padding-x = 8
+window-padding-y = 4
+
+shell-integration = zsh
+copy-on-select = clipboard
