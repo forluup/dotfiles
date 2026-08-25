@@ -27,6 +27,14 @@ palette = 13=#f27dfb
 palette = 14=#7dfaf3
 palette = 15=#ffffff
 
+# Background only — the text cells stay fully opaque, so glyphs don't wash out
+# the way hyprland's active_opacity would fade them. nvim inherits this for free
+# (tokyonight is set transparent = true), and hyprland's decoration:blur blurs
+# whatever shows through.
+# ponytail: 0.88 is a guess. Over the solid #001f30 desktop ground it's subtle;
+# turn it down toward 0.75 once there's a wallpaper behind it.
+background-opacity = 0.88
+
 # Hyprland draws the borders.
 window-decoration = false
 window-padding-x = 8

@@ -56,8 +56,8 @@ Safe to re-run; both skip anything already present.
 From the TTY of a working Arch install, with a network:
 
 ```sh
-sudo pacman -Syu --needed git                                              # the only prereq
-git clone https://github.com/forluup/dev-environment-files.git ~/.config   # HTTPS: no SSH key yet
+sudo pacman -Syu --needed git                                # the only prereq
+git clone https://github.com/forluup/dotfiles.git ~/.config  # HTTPS: no SSH key yet
 cd ~/.config && ./install-arch.sh
 ```
 
@@ -73,7 +73,7 @@ non-empty directory. Graft the repo on instead. This overwrites any colliding
 file with the repo's version:
 
 ```sh
-git clone --no-checkout https://github.com/forluup/dev-environment-files.git /tmp/cfg
+git clone --no-checkout https://github.com/forluup/dotfiles.git /tmp/cfg
 mv /tmp/cfg/.git ~/.config/ && rm -rf /tmp/cfg
 cd ~/.config && git reset --hard origin/main
 ```
@@ -85,7 +85,7 @@ interactive time. Run them once you're inside Hyprland:
 nvim                    # lazy.nvim + mason bootstrap on first launch; wait, then :q
 atuin login             # the synced history db
 gh auth login           # gh/hosts.yml is gitignored, so auth is always fresh
-ssh-keygen -t ed25519 && git remote set-url origin git@github.com:forluup/dev-environment-files.git
+ssh-keygen -t ed25519 && git remote set-url origin git@github.com:forluup/dotfiles.git
 ```
 
 No display manager is installed — login is a TTY plus `exec Hyprland`. Add

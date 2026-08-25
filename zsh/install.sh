@@ -51,7 +51,7 @@ if [ -f "$HOME/.zshenv" ]; then
 else
   info "Writing ~/.zshenv to point ZDOTDIR at this repo..."
   cat > "$HOME/.zshenv" <<'STUB'
-# Stub: real zsh config lives in ~/.config/zsh (tracked in dev-environment-files)
+# Stub: real zsh config lives in ~/.config/zsh (tracked in dotfiles)
 export ZDOTDIR="$HOME/.config/zsh"
 [[ -f "$ZDOTDIR/.zshenv" ]] && source "$ZDOTDIR/.zshenv"
 STUB
