@@ -20,3 +20,21 @@ com.corsair/
 
 # local backups
 yabai/disabled-launchagents/
+
+# --- Linux app state (created by running the desktop, not config to track) ---
+# Chrome's whole profile: cookies, Login Data, session tokens, caches. 4000+ files.
+google-chrome/
+# dconf/GNOME binary settings db, IBus socket dir, PulseAudio auth cookie
+dconf/
+ibus/
+pulse/
+# Evolution account config (contains mail account details)
+evolution/
+# systemd user units are symlinks systemctl enable wrote into the repo
+systemd/
+# per-machine desktop state
+.gsd-keyboard.settings-ported
+monitors.xml
+user-dirs.dirs
+user-dirs.locale
+gtk-3.0/bookmarks

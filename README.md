@@ -62,6 +62,15 @@ git clone https://github.com/forluup/dotfiles.git ~/.config  # HTTPS: no SSH key
 cd ~/.config && ./install-arch.sh
 ```
 
+On a machine with an NVIDIA GPU the installer also fits the driver: it installs
+`nvidia-open` (the open kernel modules — the only ones supporting Turing and
+newer, and the sole option on Blackwell/RTX 50xx), puts the modules in the
+initramfs, and adds `nvidia_drm.modeset=1` to the kernel command line, which
+Wayland needs. It backs up `mkinitcpio.conf` and `/etc/default/grub` first and
+skips each step if already done. **Reboot before starting Hyprland** so the
+modules load. The matching `env =` lines are in `hypr/hyprland.conf`. The whole
+section is guarded on `lspci`, so it is a no-op on non-NVIDIA hardware.
+
 Then log out of the TTY and back in — `install-arch.sh` runs `chsh`, so zsh
 only becomes the login shell on the next session — and start the compositor:
 
