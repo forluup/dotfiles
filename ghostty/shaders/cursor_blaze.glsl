@@ -1,6 +1,14 @@
 // Based on https://gist.github.com/chardskarth/95874c54e29da6b5a36ab7b50ae2d088
+
+// Controls how fast the visible trail retracts toward the cursor: the trail is
+// drawn out to lineLength * ease(progress), so this exponent IS the trail
+// length over time. The upstream value of 10.0 collapses the smear within two
+// or three frames, which reads as a glow around the cursor rather than a
+// trail. Lower = the trail stays extended longer. Range 1.5–4 is the useful
+// band; above ~6 it's a flash again.
+const float RETRACT = 3.0;
 float ease(float x) {
-    return pow(1.0 - x, 10.0);
+    return pow(1.0 - x, RETRACT);
 }
 
 float sdBox(in vec2 p, in vec2 xy, in vec2 b)
@@ -71,12 +79,19 @@ vec2 getRectangleCenter(vec4 rectangle) {
     return vec2(rectangle.x + (rectangle.z / 2.), rectangle.y - (rectangle.w / 2.));
 }
 
-const vec4 TRAIL_COLOR = vec4(0.173, 0.976, 0.929, 1.0); // #2cf9ed, matches cursor-color
+const vec4 TRAIL_COLOR = vec4(0.490, 0.980, 0.953, 1.0); // #7dfaf3, palette 14 — the light tint of cursor-color
 const vec4 CURRENT_CURSOR_COLOR = TRAIL_COLOR;
 const vec4 PREVIOUS_CURSOR_COLOR = TRAIL_COLOR;
-const vec4 TRAIL_COLOR_ACCENT = vec4(0.922, 0.275, 0.976, 1.0); // #eb46f9, palette 5
+const vec4 TRAIL_COLOR_ACCENT = vec4(0.949, 0.490, 0.984, 1.0); // #f27dfb, palette 13 — light tint of palette 5
+// Overall trail opacity, applied on top of the distance falloff. 1.0 is the
+// upstream behaviour (trail fully replaces whatever is under it); lower values
+// let the text and background show through.
+const float OPACITY = .55;
+
+// Total animation time in seconds. RETRACT above decides how much of that time
+// the trail is actually at full length, so raise both together for a longer
+// smear.
 const float DURATION = .5;
-const float OPACITY = .2;
 // Don't draw trail within that distance * cursor size.
 // This prevents trails from appearing when typing.
 const float DRAW_THRESHOLD = 1.5;
@@ -136,7 +151,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
 
         newColor = mix(newColor, TRAIL_COLOR_ACCENT, 1.0 - smoothstep(sdfTrail, -0.01, 0.001));
         newColor = mix(newColor, TRAIL_COLOR, antialising(sdfTrail));
-        newColor = mix(fragColor, newColor, 1.0 - alphaModifier);
+        newColor = mix(fragColor, newColor, (1.0 - alphaModifier) * OPACITY);
         fragColor = mix(newColor, fragColor, step(sdfCursor, 0));
     }
 }

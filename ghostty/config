@@ -59,17 +59,31 @@ keybind = performable:ctrl+c=copy_to_clipboard
 
 # Animated cursor motion. Ghostty has no built-in setting for this — it's a
 # GLSL fragment shader that gets the previous and current cursor rects plus
-# iTimeCursorChange, and animates the gap between them. This one is an
-# overdamped spring (physics from smear-cursor.nvim): the head snaps to the new
-# position while the tail lags, so the cursor visibly travels instead of
-# teleporting. The trail is snapped to the cell grid and painted in TRAIL_COLOR,
-# palette 14 (#7dfaf3) — the light tint of cursor-color above. TRAIL_INVERT = 1.0
-# goes back to reverse-video, which picks up the palette on its own.
-# Knobs live at the top of the shader; TAIL_RATE (lower = longer smear) and the
-# CHAOS_* group (scatter on the first few frames) are the ones worth touching.
-# shaders/cursor_blaze.glsl is the other option — a fading trail behind an
-# instant jump, recolored to #2cf9ed/#eb46f9. Swap the path to go back to it.
-custom-shader = shaders/smear_cursor_blocks.glsl
+# iTimeCursorChange, and animates the gap between them. Three are installed;
+# exactly one custom-shader line should be uncommented at a time.
+#
+# cursor_blaze.glsl (active) draws a smooth antialiased parallelogram between
+# the old and new cursor quads and fades it out. Because it's a continuous SDF
+# rather than a grid-snapped shape, diagonal jumps look the same as horizontal
+# ones. Recolored to the light palette tints — #7dfaf3 body, #f27dfb core — and
+# blended at OPACITY so the text underneath still reads. DURATION, RETRACT
+# (trail length over time) and OPACITY at the top of the file are the knobs.
+#
+# cursor_tail.glsl is sahaj-b's comet trail
+# (https://github.com/sahaj-b/ghostty-cursor-shaders) — it picks up
+# cursor-color on its own via iCurrentCursorColor, and has a pile of
+# commented-out easing functions to swap between. DURATION is 0.09 as shipped,
+# which is very snappy; raise it for a longer smear.
+#
+# smear_cursor_blocks.glsl is the overdamped-spring smear (physics from
+# smear-cursor.nvim) that snaps the trail to the character grid. It looks great
+# on straight runs but staircases on diagonals: the partial-fill edge cells
+# flip between horizontal and vertical half-blocks when |dx| ≈ |dy|, and
+# perpExtent mis-measures the cross-section mid-diagonal. FILL_STEPS = 2.0 and
+# a lower HEAD_RATE tone it down without fixing it.
+custom-shader = shaders/cursor_blaze.glsl
+#custom-shader = shaders/cursor_tail.glsl
+#custom-shader = shaders/smear_cursor_blocks.glsl
 # `always` keeps the smear animating in unfocused windows too; `true` (default)
 # only animates the focused surface.
 custom-shader-animation = true
