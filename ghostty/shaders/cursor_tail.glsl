@@ -152,6 +152,13 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord){
     vec2 vu = normalize(fragCoord, 1.);
     vec2 offsetFactor = vec2(-.5, 0.5);
     
+    // Unset previous cursor (fresh tab/window): the uniform is zeroed, and zero
+    // in this Y-up pixel space is the window's bottom-left corner, so the first
+    // move in a new tab drew a trail up from the bottom. Added locally — this
+    // file is otherwise upstream sahaj-b/ghostty-cursor-shaders.
+    if (iPreviousCursor.z < 1.0 || iPreviousCursor.w < 1.0) return;
+    if (iPreviousCursor.x <= 0.0 && iPreviousCursor.y <= 0.0) return;
+
     vec4 currentCursor = vec4(normalize(iCurrentCursor.xy, 1.), normalize(iCurrentCursor.zw, 0.));
     vec4 previousCursor = vec4(normalize(iPreviousCursor.xy, 1.), normalize(iPreviousCursor.zw, 0.));
 

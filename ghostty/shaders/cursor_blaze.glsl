@@ -108,6 +108,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord)
     vec2 vu = normalize(fragCoord, 1.);
     vec2 offsetFactor = vec2(-.5, 0.5);
 
+    // A freshly created tab or window has no previous cursor: ghostty leaves the
+    // uniform zeroed, and zero in this Y-up space is the bottom-left corner of
+    // the window, so the first cursor move in a new tab smeared up from the
+    // bottom. A real cursor rect always has a nonzero size and sits at least
+    // window-padding away from the origin, so either test rejects the unset one.
+    if (iPreviousCursor.z < 1.0 || iPreviousCursor.w < 1.0) return;
+    if (iPreviousCursor.x <= 0.0 && iPreviousCursor.y <= 0.0) return;
+
     //Normalization for cursor position and size;
     //cursor xy has the postion in a space of -1 to 1;
     //zw has the width and height

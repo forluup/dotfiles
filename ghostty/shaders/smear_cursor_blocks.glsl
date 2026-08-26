@@ -114,6 +114,14 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec2 cellSize = iCurrentCursor.zw;
     if (cellSize.x < 1.0 || cellSize.y < 1.0) return;
 
+    // A freshly created tab or window has no previous cursor: ghostty leaves the
+    // uniform zeroed, and zero in this Y-up space is the bottom-left corner of
+    // the window, so the first cursor move in a new tab smeared up from the
+    // bottom. A real cursor rect always has a nonzero size and sits at least
+    // window-padding away from the origin, so either test rejects the unset one.
+    if (iPreviousCursor.z < 1.0 || iPreviousCursor.w < 1.0) return;
+    if (iPreviousCursor.x <= 0.0 && iPreviousCursor.y <= 0.0) return;
+
     // Cursor centers: xy = top-left corner, zw = size; Y-up coordinate system
     vec2 curCenter = vec2(iCurrentCursor.x + cellSize.x * 0.5,
                           iCurrentCursor.y - cellSize.y * 0.5);

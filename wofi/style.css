@@ -34,6 +34,11 @@ window {
 
 #entry {
   padding: 8px 12px;
+  /* The selected highlight is this row's background, so its side inset comes
+     from the row's own margin. #input and #scroll are siblings inside
+     #outer-box, so matching #input's 10px margin puts the highlight's edges
+     flush with the search field's. */
+  margin: 0 10px;
   border-radius: 5px;
   color: #e6f7f5;
 }

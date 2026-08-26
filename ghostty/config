@@ -57,6 +57,32 @@ copy-on-select = clipboard
 # unperformable with an empty selection, so the key reaches the shell.
 keybind = performable:ctrl+c=copy_to_clipboard
 
+# The rest of the ctrl+shift+X defaults, duplicated onto plain ctrl+X. The
+# ctrl+shift+X originals are left alone, so both spellings work. Ghostty
+# consumes these before the pty sees them, which means each one shadows
+# whatever readline/fzf/nvim did with that control character:
+#   ctrl+t was fzf's file widget, ctrl+w was delete-word-backward,
+#   ctrl+e end-of-line, ctrl+f forward-char, ctrl+o accept-line-and-down.
+# ctrl+a (beginning-of-line), ctrl+i (literally Tab, so completion) and
+# ctrl+j (literally LF) are deliberately NOT remapped — those would break
+# the shell outright. They stay on ctrl+shift.
+keybind = ctrl+v=paste_from_clipboard
+keybind = ctrl+n=new_window
+keybind = ctrl+t=new_tab
+keybind = ctrl+w=close_tab:this
+keybind = ctrl+q=quit
+keybind = ctrl+o=new_split:right
+keybind = ctrl+e=new_split:down
+keybind = ctrl+f=start_search
+keybind = ctrl+p=toggle_command_palette
+keybind = ctrl+,=reload_config
+keybind = ctrl+enter=toggle_split_zoom
+keybind = ctrl+tab=previous_tab
+keybind = ctrl+arrow_left=previous_tab
+keybind = ctrl+arrow_right=next_tab
+keybind = ctrl+page_up=jump_to_prompt:-1
+keybind = ctrl+page_down=jump_to_prompt:1
+
 # Animated cursor motion. Ghostty has no built-in setting for this — it's a
 # GLSL fragment shader that gets the previous and current cursor rects plus
 # iTimeCursorChange, and animates the gap between them. Three are installed;

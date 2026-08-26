@@ -101,13 +101,15 @@
     // Hack Nerd Font is monospace, so a plain space between the date parts gets
     // the same wide advance as a character and the string reads as gappy. The
     // separators are pango markup instead — strftime copies the markup through
-    // literally and pango renders it after, so only the spaces shrink while the
-    // digits keep their monospace column width.
+    // literally and pango renders it after, so the word gaps are set on their own
+    // while the digits keep their monospace column width. 9pt against the bar's
+    // 16px text: narrower than a full monospace cell, wide enough that the date
+    // parts still read as separate words.
     // letter_spacing='-1024' is -1pt of tracking on the whole string, pulling the
     // glyphs inside each word together; pango takes it in 1024ths of a point.
     // Negative tracking rather than a proportional font so the digits keep equal
     // widths and the chip doesn't change size as the minute ticks over.
-    "format": " <span letter_spacing='-1024'>{:%a<span size='6pt'> </span>%d<span size='6pt'> </span>%b<span size='6pt'> </span>%I:%M<span size='6pt'> </span>%p}</span>",
+    "format": " <span letter_spacing='-1024'>{:%a<span size='9pt'> </span>%d<span size='9pt'> </span>%b<span size='9pt'> </span>%I:%M<span size='9pt'> </span>%p}</span>",
     "tooltip-format": "<tt>{calendar}</tt>",
     "calendar": {
       "mode": "month",

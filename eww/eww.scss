@@ -1,6 +1,8 @@
 // Cyberpunk neon — same palette as waybar/style.css and sketchybar/colors.sh.
-// The reference rice generates its colors from the wallpaper (Material You);
-// these are fixed, to stay in step with bat, fzf, eza, zsh and ghostty.
+// The reference rice (husseinhareb/hyprland-eww) generates its colors from the
+// wallpaper; these are fixed, to stay in step with bat, fzf, eza, zsh, wofi and
+// ghostty. Its PNG icon buttons are Nerd Font glyphs here, so everything below
+// is colour and geometry rather than image assets.
 
 $ground:   #001f30;
 $surface:  #003547;
@@ -9,6 +11,7 @@ $magenta:  #eb46f9;
 $lavender: #af87ff;
 $fg:       #e6f7f5;
 $muted:    #5c7a8a;
+$danger:   #ff5f6d;
 
 * {
   all: unset;
@@ -24,64 +27,183 @@ $muted:    #5c7a8a;
   color: $fg;
 }
 
-.big-clock {
-  font-size: 44px;
+// ---- stacked vertical clock -------------------------------------------------
+.clock-hour, .clock-minute {
+  font-size: 46px;
   font-weight: bold;
   color: $accent;
 }
 
-.sub {
+.clock-minute { color: $magenta; }
+
+.clock-day {
   font-size: 13px;
+  letter-spacing: 2px;
   color: $lavender;
+  padding-top: 8px;
 }
 
-.weather {
-  font-size: 12px;
-  color: $muted;
+.clock-date { font-size: 12px; color: $muted; }
+.clock-wx   { font-size: 11px; color: $muted; padding-top: 4px; }
+
+// ---- circular resource rings ------------------------------------------------
+// the wrapper carries the size; circular-progress does not honour its own
+.ringbox {
+  min-width: 58px;
+  min-height: 58px;
 }
 
-.cal {
-  padding-top: 6px;
-  color: $fg;
-  font-size: 12px;
-
-  &:selected {          // today
-    background-color: $accent;
-    color: $ground;
-    border-radius: 4px;
-  }
-  &.header { color: $lavender; font-weight: bold; }
-  &.highlight { color: $magenta; }
+.ring {
+  color: $accent;                 // the filled arc
+  background-color: $surface;     // the trough
 }
 
-// right-hand pill stack
-.metric-value {
-  font-size: 20px;
+.ring-label {
+  font-size: 13px;
   font-weight: bold;
-  color: $accent;
+  color: $fg;
 }
 
-.metric-name {
-  font-size: 10px;
+.ring-name {
+  font-size: 9px;
   letter-spacing: 1px;
   color: $muted;
 }
 
-.metric-bar {
-  background-color: $surface;
-  border-radius: 3px;
-  min-height: 5px;
+.netblock {
+  border-top: 1px solid $surface;
+  padding-top: 12px;
+}
 
-  progress {
+.net-rate { font-size: 11px; color: $accent; }
+.net-name { font-size: 9px;  color: $lavender; padding-top: 2px; }
+
+// ---- album art --------------------------------------------------------------
+// GTK will not scale a background-image for us, so both sizes rely on the
+// source art already being square; `background-size: cover` does the rest.
+.art-small, .art-large {
+  background-color: $surface;
+  background-size: cover;
+  background-position: center;
+  border-radius: 8px;
+}
+
+.art-small { min-width: 40px;  min-height: 40px; }
+.art-large { min-width: 128px; min-height: 128px; border-radius: 12px; }
+
+// ---- bottom-layer now-playing pill ------------------------------------------
+.now {
+  padding: 10px 16px;
+  border-radius: 16px;
+}
+
+.now-title  { font-size: 13px; color: $accent; }
+.now-artist { font-size: 11px; color: $muted; }
+
+// ---- dashboard --------------------------------------------------------------
+.dash {
+  background-color: $ground;
+  border: 2px solid $accent;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+// inner sections, one shade up from the dashboard ground
+.panel {
+  background-color: $surface;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.profile {
+  padding: 4px 8px 12px 8px;
+}
+
+.profile-name {
+  font-size: 17px;
+  font-weight: bold;
+  color: $accent;
+}
+
+.profile-line { font-size: 11px; color: $muted; }
+
+.song   { font-size: 16px; font-weight: bold; color: $fg; }
+.artist { font-size: 12px; color: $lavender; }
+
+.tbtn {
+  label { font-family: "Hack Nerd Font Mono", monospace; }
+  font-size: 20px;
+  color: $muted;
+  padding: 4px 8px;
+  border-radius: 8px;
+
+  &:hover { color: $accent; background-color: $ground; }
+}
+
+.tbtn.play { font-size: 24px; color: $accent; }
+
+// Icon buttons use the Mono cut of the patched font on purpose: in the
+// proportional cut the Nerd Font icons are double-width and their ink sits off
+// to the right of that advance, so each glyph landed a few pixels right of its
+// button. The Mono cut scales every icon into one centred cell. Equal padding
+// plus matched min-width/min-height keeps the buttons square, so GTK centres
+// the label in both axes.
+%icon-button {
+  label { font-family: "Hack Nerd Font Mono", monospace; }
+  font-size: 22px;
+  min-width: 26px;
+  min-height: 26px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid $ground;
+  background-color: $ground;
+  color: $fg;
+
+  &:hover {
+    color: $ground;
     background-color: $accent;
-    border-radius: 3px;
+    border-color: $accent;
   }
 }
 
-.now {
-  padding: 10px 18px;
-  border-radius: 20px;
+// app grid + power row share the same square-button treatment
+.app, .pbtn { @extend %icon-button; }
+
+.pbtn { font-size: 18px; color: $lavender; }
+
+.pbtn.danger {
+  color: $danger;
+
+  &:hover { color: $ground; background-color: $danger; border-color: $danger; }
 }
 
-.now-icon { font-size: 14px; color: $magenta; }
-.now-text { font-size: 13px; color: $accent; }
+// ---- sliders ----------------------------------------------------------------
+.slider-icon {
+  label { font-family: "Hack Nerd Font Mono", monospace; }
+  font-size: 18px;
+  color: $accent;
+  padding: 0 4px;
+
+  &:hover { color: $magenta; }
+}
+
+.slider {
+  trough {
+    background-color: $ground;
+    border-radius: 4px;
+    min-height: 8px;
+
+    highlight {
+      background-color: $accent;
+      border-radius: 4px;
+    }
+  }
+
+  slider {
+    background-color: $fg;
+    border-radius: 50%;
+    min-width: 14px;
+    min-height: 14px;
+    margin: -4px;
+  }
+}
