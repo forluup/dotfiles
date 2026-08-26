@@ -25,8 +25,9 @@ else
 fi
 
 # --- powerlevel10k + custom zsh plugins ---------------------------------------
-# .zshrc sources p10k from ~/powerlevel10k, and names fzf-tab and
-# zsh-syntax-highlighting in plugins=(); neither ships with oh-my-zsh.
+# .zshrc sets ZSH_THEME=powerlevel10k/powerlevel10k, which oh-my-zsh resolves
+# under $ZSH_CUSTOM/themes, and names fzf-tab and zsh-syntax-highlighting in
+# plugins=(); none of them ship with oh-my-zsh.
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 clone_once() {  # clone_once <repo-url> <dest>
@@ -38,7 +39,7 @@ clone_once() {  # clone_once <repo-url> <dest>
   fi
 }
 
-clone_once https://github.com/romkatv/powerlevel10k.git "$HOME/powerlevel10k"
+clone_once https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
 clone_once https://github.com/Aloxaf/fzf-tab.git         "$ZSH_CUSTOM/plugins/fzf-tab"
 clone_once https://github.com/zsh-users/zsh-syntax-highlighting.git \
                                                         "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"

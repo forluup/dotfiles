@@ -7,6 +7,9 @@ font-size = 14
 background = #001f30
 foreground = #e6f7f5
 cursor-color = #2cf9ed
+# Block rather than a bar. Also gives the smear shader a full cell to work
+# with, so the trail is a solid ribbon instead of a thin line.
+cursor-style = block
 selection-background = #003547
 selection-foreground = #ffffff
 
@@ -41,4 +44,41 @@ window-padding-x = 8
 window-padding-y = 4
 
 shell-integration = zsh
+# no-cursor is what makes cursor-style above actually stick: shell integration
+# otherwise forces a bar at every prompt, ignoring cursor-style entirely. The
+# only thing given up is automatic shape-switching for zsh vi-mode, which
+# isn't set up in zsh/.zshrc anyway — every other feature keeps its default
+# (title and path on, sudo and the ssh ones off).
+shell-integration-features = no-cursor
 copy-on-select = clipboard
+
+# Ctrl+C copies when there's a selection, otherwise falls through as SIGINT.
+# `performable:` is what makes that safe: copy_to_clipboard reports itself
+# unperformable with an empty selection, so the key reaches the shell.
+keybind = performable:ctrl+c=copy_to_clipboard
+
+# Animated cursor motion. Ghostty has no built-in setting for this — it's a
+# GLSL fragment shader that gets the previous and current cursor rects plus
+# iTimeCursorChange, and animates the gap between them. This one is an
+# overdamped spring (physics from smear-cursor.nvim): the head snaps to the new
+# position while the tail lags, so the cursor visibly travels instead of
+# teleporting. The trail is snapped to the cell grid and painted in TRAIL_COLOR,
+# palette 14 (#7dfaf3) — the light tint of cursor-color above. TRAIL_INVERT = 1.0
+# goes back to reverse-video, which picks up the palette on its own.
+# Knobs live at the top of the shader; TAIL_RATE (lower = longer smear) and the
+# CHAOS_* group (scatter on the first few frames) are the ones worth touching.
+# shaders/cursor_blaze.glsl is the other option — a fading trail behind an
+# instant jump, recolored to #2cf9ed/#eb46f9. Swap the path to go back to it.
+custom-shader = shaders/smear_cursor_blocks.glsl
+# `always` keeps the smear animating in unfocused windows too; `true` (default)
+# only animates the focused surface.
+custom-shader-animation = true
+
+# Tab bar. window-theme = ghostty makes GTK draw the header/tab bar from the
+# background/foreground above instead of the libadwaita grey, and `flat` drops
+# the shadow it otherwise casts onto the terminal. gtk.css then clears the bar's
+# own background so background-opacity's transparency shows through it too —
+# without the CSS the bar is solid #001f30 while the grid below is not.
+window-theme = ghostty
+gtk-toolbar-style = flat
+gtk-custom-css = gtk.css

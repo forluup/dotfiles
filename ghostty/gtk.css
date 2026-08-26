@@ -1,0 +1,22 @@
+/* Loaded via gtk-custom-css in ghostty/config. Ghostty's own
+   background-opacity only covers the terminal grid — the GTK header/tab bar is
+   painted by libadwaita and stays opaque grey, so it has to be cleared here. */
+
+headerbar,
+headerbar > *,
+.top-bar,
+tabbar,
+tabbar > *,
+tabbar tabbox,
+tabbar .box {
+  background-color: transparent;
+  background-image: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+/* Without a tint every tab looks identical once the bar is see-through.
+   Neon cyan at low alpha, matching cursor-color. */
+tabbar tab:checked {
+  background-color: rgba(44, 249, 237, 0.12);
+}

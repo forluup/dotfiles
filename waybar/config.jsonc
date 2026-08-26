@@ -5,36 +5,45 @@
 {
   "layer": "top",
   "position": "top",
-  "height": 37,
+  "height": 44,
   "spacing": 5,
   // 7 to match hyprland's gaps_out sides, so the bar's edges line up with the
   // windows below it. (sketchybar used padding_left/right=10 on a full-width
   // bar; this is a floating bar instead, aligned to the tiling.)
   "margin-left": 7,
   "margin-right": 7,
+  // Lifts the bar off the top edge so the rounded top corners actually read as
+  // corners instead of being cut off by the screen edge.
+  "margin-top": 7,
 
   "modules-left": ["hyprland/workspaces", "hyprland/window"],
   "modules-center": ["mpris"],
-  "modules-right": ["cpu", "wireplumber", "tray", "clock"],
+  "modules-right": ["network", "cpu", "wireplumber", "tray", "clock"],
 
-  // sketchybar items/spaces.sh + plugins/space_windows.sh: fixed 1-10 with an
-  // app-icon strip. window-rewrite is the icon_map_fn.sh equivalent.
+  // sketchybar items/spaces.sh + plugins/space_windows.sh: a fixed strip of
+  // spaces with app icons. window-rewrite is the icon_map_fn.sh equivalent,
+  // using Nerd Font glyphs instead of mac's sketchybar-app-font ligatures.
+  // persistent-workspaces pins which IDs live on which output; it must stay in
+  // sync with the `workspace = N, monitor:...` rules in hypr/hyprland.conf.
   "hyprland/workspaces": {
-    "format": "{id}{windows}",
+    "format": "{id}  {windows}",
     "format-window-separator": " ",
-    "window-rewrite-default": "",
+    "window-rewrite-default": " ",
     "window-rewrite": {
-      "class<com.mitchellh.ghostty>": "",
-      "class<google-chrome>": "",
-      "class<firefox>": "",
-      "class<Slack>": "",
-      "class<Spotify>": "",
-      "class<code>": "",
-      "class<org.pwmt.zathura>": "",
-      "title<.*nvim.*>": "",
-      "title<.*lazygit.*>": ""
+      "class<com.mitchellh.ghostty>": " ",
+      "class<google-chrome>": " ",
+      "class<firefox>": " ",
+      "class<Slack>": " ",
+      "class<Spotify>": " ",
+      "class<code>": " ",
+      "class<org.pwmt.zathura>": " ",
+      "title<.*nvim.*>": " ",
+      "title<.*lazygit.*>": " "
     },
-    "persistent-workspaces": { "*": 10 }
+    "persistent-workspaces": {
+      "HDMI-A-1": [1, 2],
+      "DP-2": [3, 4]
+    }
   },
 
   // sketchybar items/front_app.sh
@@ -54,15 +63,29 @@
     "on-click": "playerctl play-pause"
   },
 
+  // No sketchybar counterpart — the mac bar leaned on the macOS menu bar for
+  // wifi. nm-applet still runs for the connection editor, but its stock GTK
+  // tray icon is off-theme, so the status itself is drawn here instead.
+  "network": {
+    "format-wifi": " ",
+    "format-ethernet": " ",
+    "format-linked": " ",
+    "format-disconnected": " ",
+    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
+    "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
+    "tooltip-format-disconnected": "disconnected",
+    "on-click": "nm-connection-editor"
+  },
+
   "cpu": {
     "interval": 2,
-    "format": " {usage}%"
+    "format": " {usage}%"
   },
 
   "wireplumber": {
     "format": "{icon} {volume}%",
-    "format-muted": " muted",
-    "format-icons": ["", "", ""],
+    "format-muted": " muted",
+    "format-icons": ["", "", ""],
     "on-click": "swayosd-client --output-volume mute-toggle",
     "on-click-right": "pavucontrol"
   },
@@ -75,7 +98,7 @@
   // sketchybar plugins/calendar.sh: date +'%a %d %b %I:%M %p'
   "clock": {
     "interval": 30,
-    "format": " {:%a %d %b %I:%M %p}",
+    "format": " {:%a %d %b %I:%M %p}",
     "tooltip-format": "<tt>{calendar}</tt>",
     "calendar": {
       "mode": "month",

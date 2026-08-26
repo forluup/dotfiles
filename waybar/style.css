@@ -3,7 +3,7 @@
 
 * {
   font-family: "Hack Nerd Font", monospace;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   border: none;
   border-radius: 0;
@@ -11,11 +11,29 @@
 }
 
 window#waybar {
-  background: #001f30;
+  /* Translucent over the wallpaper. hyprland.conf adds `layerrule = blur,
+     waybar`, so what shows through is blurred rather than a literal cutout —
+     without that the text loses contrast against a busy wallpaper. */
+  background: rgba(0, 31, 48, 0.78);
   color: #ffffff;
+  /* Floating rounded bar. The `*` rule above zeroes border-radius everywhere,
+     so this has to come after it to win. */
+  border-radius: 10px;
+}
+
+/* Inset the first and last chip so they clear the bar's rounded corners.
+   Padding on window#waybar does nothing — GTK ignores it on the window
+   widget — so the margin has to go on the module boxes instead. */
+.modules-left {
+  margin-left: 6px;
+}
+
+.modules-right {
+  margin-right: 6px;
 }
 
 /* sketchybar --default: item bg, corner_radius 5, height 24, padding 5/10 */
+#network,
 #cpu,
 #wireplumber,
 #clock,
@@ -23,20 +41,20 @@ window#waybar {
   background: #003547;
   border-radius: 5px;
   padding: 0 10px;
-  margin: 6px 0;
+  margin: 7px 0;
 }
 
 /* items/spaces.sh — inactive: accent text, no background */
 #workspaces {
   background: transparent;
-  margin: 6px 0;
+  margin: 7px 0;
 }
 
 #workspaces button {
   background: transparent;
   color: #2cf9ed;
   border-radius: 5px;
-  padding: 0 8px;
+  padding: 0 10px;
   margin: 0 2px;
 }
 
@@ -62,7 +80,7 @@ window#waybar {
   color: #001f30;
   border-radius: 5px;
   padding: 0 10px;
-  margin: 6px 0;
+  margin: 7px 0;
 }
 
 window#waybar.empty #window {
@@ -75,6 +93,10 @@ window#waybar.empty #window {
   background: transparent;
   color: #2cf9ed;
   padding: 0 10px;
+}
+
+#network.disconnected {
+  color: #ff2453;
 }
 
 #wireplumber.muted {
