@@ -14,7 +14,7 @@ window#waybar {
   /* Translucent over the wallpaper. hyprland.conf adds `layerrule = blur,
      waybar`, so what shows through is blurred rather than a literal cutout —
      without that the text loses contrast against a busy wallpaper. */
-  background: rgba(0, 31, 48, 0.78);
+  background: rgba(0, 31, 48, 0.65);
   color: #ffffff;
   /* Floating rounded bar. The `*` rule above zeroes border-radius everywhere,
      so this has to come after it to win. */

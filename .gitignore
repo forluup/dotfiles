@@ -38,3 +38,6 @@ monitors.xml
 user-dirs.dirs
 user-dirs.locale
 gtk-3.0/bookmarks
+
+# end_4 dots-hyprland source clone (has its own .git)
+dots-hyprland/
