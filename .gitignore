@@ -41,3 +41,9 @@ gtk-3.0/bookmarks
 
 # end_4 dots-hyprland source clone (has its own .git)
 dots-hyprland/
+
+# --- HyDE ---
+# Theme wallpapers: ~307MB of stock art across the 12 shipped themes, and
+# redownloadable with `hyde-shell themepatcher`. The .theme files that sit
+# beside them ARE tracked, since those carry the actual colors and layout.
+hyde/themes/*/wallpapers/

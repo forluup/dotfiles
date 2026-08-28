@@ -1,123 +1,77 @@
-// waybar — port of sketchybar/. Same layout, same cyberpunk-neon teal scheme:
-//   left:   workspaces (with per-workspace app icons) + focused window
-//   center: mpris (replaces nowplaying-cli media item)
-//   right:  cpu, volume, tray, clock
 {
-  "layer": "top",
-  "position": "top",
-  "height": 44,
-  "spacing": 5,
-  // 7 to match hyprland's gaps_out sides, so the bar's edges line up with the
-  // windows below it. (sketchybar used padding_left/right=10 on a full-width
-  // bar; this is a floating bar instead, aligned to the tiling.)
-  "margin-left": 7,
-  "margin-right": 7,
-  // Lifts the bar off the top edge so the rounded top corners actually read as
-  // corners instead of being cut off by the screen edge.
-  "margin-top": 7,
-
-  "modules-left": ["hyprland/workspaces", "hyprland/window"],
-  "modules-center": ["mpris"],
-  "modules-right": ["network", "cpu", "wireplumber", "tray", "clock"],
-
-  // sketchybar items/spaces.sh + plugins/space_windows.sh: a fixed strip of
-  // spaces with app icons. window-rewrite is the icon_map_fn.sh equivalent,
-  // using Nerd Font glyphs instead of mac's sketchybar-app-font ligatures.
-  // persistent-workspaces pins which IDs live on which output; it must stay in
-  // sync with the `workspace = N, monitor:...` rules in hypr/hyprland.conf.
-  "hyprland/workspaces": {
-    "format": "{id}  {windows}",
-    "format-window-separator": " ",
-    "window-rewrite-default": " ",
-    "window-rewrite": {
-      "class<com.mitchellh.ghostty>": " ",
-      "class<google-chrome>": " ",
-      "class<firefox>": " ",
-      "class<Slack>": " ",
-      "class<Spotify>": " ",
-      "class<code>": " ",
-      "class<org.pwmt.zathura>": " ",
-      "title<.*nvim.*>": " ",
-      "title<.*lazygit.*>": " "
+    "layer": "top",
+    "output": [
+        "*"
+    ],
+    "height": 10,
+    "exclusive": true,
+    "passthrough": false,
+    "reload_style_on_change": true,
+    "include": [
+        "$XDG_CONFIG_HOME/waybar/modules/*json*", 
+        "$XDG_CONFIG_HOME/waybar/includes/includes.json" 
+    ],
+    "modules-left": [
+        "group/pill#left1",
+        "group/pill#left2"
+    ],
+    "group/pill#left1": {
+        "orientation": "inherit",
+        "modules": [
+            "cpu",
+            "memory"
+        ]
     },
-    "persistent-workspaces": {
-      "HDMI-A-1": [1, 2],
-      "DP-2": [3, 4]
+    "group/pill#left2": {
+        "orientation": "inherit",
+        "modules": [
+            "idle_inhibitor",
+            "clock"
+        ]
+    },
+    "modules-center": [
+        "group/pill#center"
+    ],
+    "group/pill#center": {
+        "modules": [
+            "hyprland/workspaces",
+            "hyprland/window"
+        ],
+        "orientation": "inherit"
+    },
+    "modules-right": [
+        "group/pill#right1",
+        "group/pill#right2",
+        "group/pill#right3"
+    ],
+    "group/pill#right1": {
+        "modules": [
+            "backlight",
+            "network",
+            "pulseaudio",
+            "pulseaudio#microphone",
+            "custom/updates",
+            "custom/keybindhint"
+        ],
+        "orientation": "inherit"
+    },
+    "group/pill#right2": {
+        "modules": [
+            "privacy",
+            "tray",
+            "battery"
+        ],
+        "orientation": "inherit"
+    },
+    "group/pill#right3": {
+        "modules": [
+            "custom/wallchange",
+            "custom/theme",
+            "custom/wbar",
+            "custom/cliphist",
+            "custom/hyde-menu",
+            "custom/power"
+        ],
+        "orientation": "inherit"
     }
-  },
-
-  // sketchybar items/front_app.sh
-  "hyprland/window": {
-    "format": "{class}",
-    "max-length": 30,
-    "separate-outputs": true
-  },
-
-  // sketchybar plugins/media.sh — Spotify only, matching the mac config.
-  // Drop "player" to show whatever is playing (Chrome, mpv, ...).
-  "mpris": {
-    "player": "spotify",
-    "format": "  {title} - {artist}",
-    "format-paused": "  {title} - {artist}",
-    "max-length": 35,
-    "on-click": "playerctl play-pause"
-  },
-
-  // No sketchybar counterpart — the mac bar leaned on the macOS menu bar for
-  // wifi. nm-applet still runs for the connection editor, but its stock GTK
-  // tray icon is off-theme, so the status itself is drawn here instead.
-  "network": {
-    "format-wifi": " ",
-    "format-ethernet": " ",
-    "format-linked": " ",
-    "format-disconnected": " ",
-    "tooltip-format-wifi": "{essid} ({signalStrength}%)\n{ipaddr}",
-    "tooltip-format-ethernet": "{ifname}\n{ipaddr}",
-    "tooltip-format-disconnected": "disconnected",
-    "on-click": "nm-connection-editor"
-  },
-
-  "cpu": {
-    "interval": 2,
-    "format": " {usage}%"
-  },
-
-  "wireplumber": {
-    "format": "{icon} {volume}%",
-    "format-muted": " muted",
-    "format-icons": ["", "", ""],
-    "on-click": "swayosd-client --output-volume mute-toggle",
-    "on-click-right": "pavucontrol"
-  },
-
-  "tray": {
-    "icon-size": 16,
-    "spacing": 8
-  },
-
-  // sketchybar plugins/calendar.sh: date +'%a %d %b %I:%M %p'
-  "clock": {
-    "interval": 30,
-    // Hack Nerd Font is monospace, so a plain space between the date parts gets
-    // the same wide advance as a character and the string reads as gappy. The
-    // separators are pango markup instead — strftime copies the markup through
-    // literally and pango renders it after, so the word gaps are set on their own
-    // while the digits keep their monospace column width. 9pt against the bar's
-    // 16px text: narrower than a full monospace cell, wide enough that the date
-    // parts still read as separate words.
-    // letter_spacing='-1024' is -1pt of tracking on the whole string, pulling the
-    // glyphs inside each word together; pango takes it in 1024ths of a point.
-    // Negative tracking rather than a proportional font so the digits keep equal
-    // widths and the chip doesn't change size as the minute ticks over.
-    "format": " <span letter_spacing='-1024'>{:%a<span size='9pt'> </span>%d<span size='9pt'> </span>%b<span size='9pt'> </span>%I:%M<span size='9pt'> </span>%p}</span>",
-    "tooltip-format": "<tt>{calendar}</tt>",
-    "calendar": {
-      "mode": "month",
-      "format": {
-        "today": "<span color='#2cf9ed'><b>{}</b></span>",
-        "days": "<span color='#e6f7f5'>{}</span>",
-        "weekdays": "<span color='#af87ff'><b>{}</b></span>"
-      }
-    }
-  }
 }
