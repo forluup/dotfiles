@@ -1,10 +1,18 @@
 $HOME/.config/waybar/theme.css|${scrDir}/wbarconfgen.sh
 /* Cyberpunk Teal — colours taken from the pre-HyDE waybar/style.css.
-   bar-bg keeps alpha below 1 so the `layerrule = blur,waybar` in hypr.theme
-   has something to blur; at full opacity the blur is a no-op. 0.65 is the
-   alpha the old bar used. */
 
-@define-color bar-bg rgba(0, 31, 48, 0.65);
+   bar-bg is near-transparent, which is what 9 of the 12 stock HyDE themes do.
+   The module groups (#pill, #leaf) paint themselves opaque from main-bg, so
+   the bar reads as floating islands and the gaps between them show wallpaper.
+
+   The pre-HyDE bar used 0.65 here instead, for the reason its own stylesheet
+   gave: a translucent strip plus `layerrule = blur,waybar` blurs the wallpaper
+   behind the text, and without it the text loses contrast over a busy image.
+   That tradeoff now applies to the gaps between islands. Raise this back
+   toward 0.65 to get the continuous bar back. Keep it below 1 either way, or
+   the blur has nothing to act on. */
+
+@define-color bar-bg rgba(0, 31, 48, 0.1);
 
 @define-color main-bg #001f30;
 @define-color main-fg #e6f7f5;
