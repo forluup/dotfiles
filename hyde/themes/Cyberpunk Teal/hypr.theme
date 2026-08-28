@@ -1,0 +1,52 @@
+$HOME/.config/hypr/themes/theme.conf|> $HOME/.config/hypr/themes/colors.conf
+# Cyberpunk Teal — ported from the pre-HyDE hyprland.conf (tag: pre-hyde).
+# Gaps, rounding, border size and the cyan->magenta active border are the
+# values that setup used, so the window frames look unchanged across the move.
+
+$GTK_THEME = Wallbash-Gtk
+$ICON_THEME = Tela-circle-dracula
+$COLOR_SCHEME = prefer-dark
+
+exec = gsettings set org.gnome.desktop.interface icon-theme $ICON_THEME
+exec = gsettings set org.gnome.desktop.interface gtk-theme $GTK_THEME
+exec = gsettings set org.gnome.desktop.interface color-scheme $COLOR_SCHEME
+
+general {
+    gaps_in = 3
+    gaps_out = 7, 7, 7, 7
+    border_size = 2
+    col.active_border = rgb(2cf9ed) rgb(eb46f9) 45deg
+    col.inactive_border = rgb(003547)
+    layout = dwindle
+    resize_on_border = true
+}
+
+group {
+    col.border_active = rgb(2cf9ed) rgb(eb46f9) 45deg
+    col.border_inactive = rgb(003547)
+    col.border_locked_active = rgb(af87ff) rgb(eb46f9) 45deg
+    col.border_locked_inactive = rgb(003547)
+}
+
+decoration {
+    rounding = 8
+
+    blur {
+        enabled = yes
+        size = 6
+        passes = 3
+        new_optimizations = on
+        ignore_opacity = on
+        xray = false
+    }
+
+    # The old config used a cyan glow rather than a black drop shadow; at 0x33
+    # it reads as a rim light on the focused window.
+    shadow {
+        enabled = true
+        range = 20
+        color = rgba(2cf9ed33)
+    }
+}
+
+layerrule = blur,waybar

@@ -1,3 +1,4 @@
+$HOME/.config/rofi/theme.rasi
 * {
     /* Background carries alpha to match the translucent bar; e6 is the same
        weight the stock HyDE themes use for rofi. */

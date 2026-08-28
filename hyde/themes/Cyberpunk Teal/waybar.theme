@@ -1,3 +1,4 @@
+$HOME/.config/waybar/theme.css|${scrDir}/wbarconfgen.sh
 /* Cyberpunk Teal — colours taken from the pre-HyDE waybar/style.css.
    bar-bg keeps alpha below 1 so the `layerrule = blur,waybar` in hypr.theme
    has something to blur; at full opacity the blur is a no-op. 0.65 is the

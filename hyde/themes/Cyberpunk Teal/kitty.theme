@@ -1,3 +1,4 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
 ## name: Cyberpunk Teal
 ## blurb: Teal scheme carried over from the pre-HyDE ghostty config
 

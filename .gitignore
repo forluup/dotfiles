@@ -47,3 +47,17 @@ dots-hyprland/
 # redownloadable with `hyde-shell themepatcher`. The .theme files that sit
 # beside them ARE tracked, since those carry the actual colors and layout.
 hyde/themes/*/wallpapers/
+# ...but not the hand-built theme's wallpaper. That one is not stock art and
+# nothing will redownload it, so the theme is only reproducible with it tracked.
+!hyde/themes/Cyberpunk Teal/wallpapers/
+
+# Symlinks the wallpaper backend regenerates on every theme switch; they point
+# into the ignored wallpapers directories, so tracking them stores dead links.
+hyde/themes/*/wall.awww.png
+hyde/themes/*/wall.set
+
+# GNU parallel runtime state, written while wallbash renders templates.
+parallel/
+
+# KDE session restore state (dolphin window positions).
+session/
