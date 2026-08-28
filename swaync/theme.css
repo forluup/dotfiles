@@ -67,7 +67,7 @@
 * overwritten on every theme reload)
 * */
 .notification-row .notification-background {
-  padding: 8px; /* hyde:gaps_out */
+  padding: 7px; /* hyde:gaps_out */
 }
 
 .notification-row .notification-background .notification {

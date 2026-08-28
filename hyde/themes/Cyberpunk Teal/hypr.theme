@@ -13,7 +13,13 @@ exec = gsettings set org.gnome.desktop.interface color-scheme $COLOR_SCHEME
 
 general {
     gaps_in = 3
-    gaps_out = 7, 7, 7, 7
+    # Single value, not `7, 7, 7, 7`. hyprquery translates this file into
+    # lua_state/hypr_theme.lua for the Lua config, and it passes a
+    # four-value gap through as the string "7, 7, 7, 7" rather than
+    # splitting it, which Hyprland then rejects with
+    # "error setting general.gaps_out". All four sides are equal here
+    # anyway, so one number says the same thing.
+    gaps_out = 7
     border_size = 2
     col.active_border = rgb(2cf9ed) rgb(eb46f9) 45deg
     col.inactive_border = rgb(003547)
