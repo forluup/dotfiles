@@ -1,0 +1,23 @@
+{
+    // Overrides ~/.local/share/waybar/modules/hyprland-window.jsonc, which HyDE
+    // rewrites on update. config.jsonc includes this directory BEFORE
+    // includes.json, and waybar keeps the first definition of a key it sees, so
+    // what is set here wins and every key left out below still comes from HyDE.
+    "hyprland/window": {
+        // Upstream is " \uf303 {0}" -- note the leading space. It adds roughly
+        // 5px to the left of the Arch glyph with nothing to match it on the
+        // right, so the pill's contents sit visibly off-centre. Dropping it
+        // leaves the padding to the CSS, which is symmetric.
+        //
+        // Only titles matching no `rewrite` rule show the problem. Waybar
+        // applies rewrites to the formatted string and those rules replace it
+        // outright instead of capturing it, so a matching title loses this
+        // leading space (and the Arch glyph with it) and gains the rule's own
+        // trailing space.
+        //
+        // The glyph is written as an escape, not pasted: U+F303 is a private
+        // use codepoint that shows as blank in most editors, which makes a
+        // literal easy to mangle.
+        "format": "\uf303 {0}"
+    }
+}
