@@ -1,0 +1,140 @@
+# Cyberpunk teal, the same palette as waybar/Hyprland/hyprlock.
+#   bg #001f30  surface #003547  cyan #2cf9ed  magenta #eb46f9
+#   lavender #af87ff  red #ff2453  fg #e6f7f5
+#
+# Written against yazi 26.8.15. Its theme schema has drifted a lot from the
+# guides floating around online, and unknown keys are a hard parse error rather
+# than a warning, so every section below was checked against the defaults
+# compiled into the binary: `strings $(which yazi) | sed -n '/^\[mode\]$/,$p'`.
+# The traps, all of which used to be spelled otherwise:
+#   * filetype rules key on `url`, not `name`, and mime globs need a `**/`
+#     VFS prefix
+#   * the cursor row lives in [indicator], not [mgr] `hovered`
+#   * [mode] keys are `*_main` / `*_alt`, not bare `normal` / `select` / `unset`
+#   * [help] keys are chord/action, not on/run/footer
+
+[mgr]
+cwd = { fg = "#2cf9ed" }
+
+# Search and symlinks. Magenta, so a match never reads as the cursor.
+find_keyword   = { fg = "#eb46f9", bold = true, underline = true }
+find_position  = { fg = "#eb46f9", bg = "reset", bold = true, italic = true }
+symlink_target = { fg = "#af87ff", italic = true }
+
+# Marker: the thin gutter stripe. fg and bg match so it renders as a solid bar.
+marker_copied   = { fg = "#af87ff", bg = "#af87ff" }
+marker_cut      = { fg = "#ff2453", bg = "#ff2453" }
+marker_marked   = { fg = "#2cf9ed", bg = "#2cf9ed" }
+marker_selected = { fg = "#eb46f9", bg = "#eb46f9" }
+
+count_copied   = { fg = "#001f30", bg = "#af87ff" }
+count_cut      = { fg = "#001f30", bg = "#ff2453" }
+count_selected = { fg = "#001f30", bg = "#eb46f9" }
+
+border_symbol = "│"
+border_style  = { fg = "#003547" }
+
+syntect_theme = ""
+
+# The cursor row. Teal fill with dark text reads at a glance across all three
+# panes; the default is a plain `reversed = true`.
+[indicator]
+parent  = { fg = "#001f30", bg = "#003547" }
+current = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+preview = { fg = "#2cf9ed", underline = true }
+
+[tabs]
+active   = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+inactive = { fg = "#2cf9ed", bg = "#003547" }
+
+[mode]
+normal_main = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+normal_alt  = { fg = "#2cf9ed", bg = "#003547" }
+select_main = { fg = "#001f30", bg = "#eb46f9", bold = true }
+select_alt  = { fg = "#eb46f9", bg = "#003547" }
+unset_main  = { fg = "#001f30", bg = "#af87ff", bold = true }
+unset_alt   = { fg = "#af87ff", bg = "#003547" }
+
+[status]
+overall = { fg = "#e6f7f5", bg = "#001f30" }
+
+perm_sep   = { fg = "#003547" }
+perm_type  = { fg = "#2cf9ed" }
+perm_read  = { fg = "#af87ff" }
+perm_write = { fg = "#eb46f9" }
+perm_exec  = { fg = "#ff2453" }
+
+progress_label  = { fg = "#e6f7f5", bold = true }
+progress_normal = { fg = "#2cf9ed", bg = "#003547" }
+progress_error  = { fg = "#ff2453", bg = "#003547" }
+
+[which]
+border          = { fg = "#2cf9ed" }
+cols            = 3
+mask            = { bg = "#001f30" }
+cand            = { fg = "#2cf9ed" }
+rest            = { fg = "#003547" }
+desc            = { fg = "#eb46f9" }
+separator       = "  "
+separator_style = { fg = "#003547" }
+
+[confirm]
+border  = { fg = "#2cf9ed" }
+title   = { fg = "#2cf9ed" }
+body    = { fg = "#e6f7f5" }
+list    = { fg = "#af87ff" }
+btn_yes = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+btn_no  = { fg = "#e6f7f5" }
+
+[spot]
+border   = { fg = "#2cf9ed" }
+title    = { fg = "#2cf9ed" }
+tbl_col  = { fg = "#2cf9ed" }
+tbl_cell = { fg = "#001f30", bg = "#eb46f9" }
+
+[notify]
+title_info  = { fg = "#2cf9ed" }
+title_warn  = { fg = "#af87ff" }
+title_error = { fg = "#ff2453" }
+
+[pick]
+border   = { fg = "#2cf9ed" }
+active   = { fg = "#eb46f9", bold = true }
+inactive = { fg = "#e6f7f5" }
+
+[input]
+border   = { fg = "#2cf9ed" }
+title    = { fg = "#e6f7f5" }
+value    = { fg = "#e6f7f5" }
+selected = { bg = "#003547" }
+
+[cmp]
+border   = { fg = "#2cf9ed" }
+active   = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+inactive = { fg = "#e6f7f5" }
+
+[tasks]
+border  = { fg = "#2cf9ed" }
+title   = { fg = "#e6f7f5" }
+hovered = { fg = "#eb46f9", bold = true }
+
+[help]
+border  = { fg = "#2cf9ed" }
+chord   = { fg = "#2cf9ed" }
+action  = { fg = "#e6f7f5" }
+hovered = { fg = "#001f30", bg = "#2cf9ed", bold = true }
+
+# File-type coloring. Directories take the primary accent; executables and
+# broken links take red so they stand out against a mostly-teal listing.
+[filetype]
+rules = [
+	{ mime = "**/image/*", fg = "#af87ff" },
+	{ mime = "**/{audio,video}/*", fg = "#eb46f9" },
+	{ mime = "**/application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio}", fg = "#eb46f9" },
+	{ mime = "**/application/{pdf,doc,rtf}", fg = "#af87ff" },
+	{ mime = "vfs/{absent,stale}", fg = "#003547" },
+	{ url = "*", is = "orphan", fg = "#ff2453", italic = true },
+	{ url = "*", is = "exec", fg = "#ff2453" },
+	{ url = "*/", fg = "#2cf9ed", bold = true },
+	{ url = "*", fg = "#e6f7f5" },
+]

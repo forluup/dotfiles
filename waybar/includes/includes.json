@@ -1,5 +1,6 @@
 {
     "include": [
+        "/home/jesse/.config/waybar/modules/hyprland-window.jsonc",
         "/home/jesse/.local/share/waybar/modules/wlr-taskbar#windows.json",
         "/home/jesse/.local/share/waybar/modules/privacy.json",
         "/home/jesse/.local/share/waybar/modules/wlr-taskbar.json",

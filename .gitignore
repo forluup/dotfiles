@@ -61,3 +61,14 @@ parallel/
 
 # KDE session restore state (dolphin window positions).
 session/
+
+# Firefox profile: cookies, logins.db, key4.db (the password-encryption key),
+# history, and session state. 7700+ files, ~110MB, none of it config.
+mozilla/
+
+# VS Code / Code - OSS runtime state: HTTP and CachedData caches, per-session
+# logs, workspace and global extension storage. Settings live in dotfiles, not here.
+Code - OSS/
+
+# Wrangler dev-server logs and its local registry socket.
+.wrangler/

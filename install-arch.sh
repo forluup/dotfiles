@@ -3,7 +3,7 @@
 # install-arch.sh
 # Arch Linux installer — the Hyprland counterpart to install-mac.sh.
 # Installs the Wayland desktop (hyprland, waybar, wofi, mako, hyprlock,
-# hypridle, swayosd, ghostty) plus every CLI tool the zsh config sources.
+# hypridle, swayosd, kitty) plus every CLI tool the zsh config sources.
 #
 # Usage:
 #   cd ~/.config && ./install-arch.sh
@@ -112,7 +112,7 @@ fi
 info "Installing the Hyprland desktop..."
 $AUR -S --needed --noconfirm \
   hyprland hyprlock hypridle xdg-desktop-portal-hyprland \
-  waybar wofi mako eww \
+  waybar wofi mako \
   grim slurp wl-clipboard cliphist swayosd-git \
   polkit-gnome qt5-wayland qt6-wayland playerctl \
   pipewire pipewire-pulse pipewire-alsa wireplumber pavucontrol \
@@ -120,10 +120,10 @@ $AUR -S --needed --noconfirm \
   ttf-hack-nerd
 
 # --- GUI apps -----------------------------------------------------------------
-# ghostty replaces iTerm2. LinearMouse has no Linux equivalent — pointer
-# settings live in hypr/hyprland.conf's input {} block instead.
-info "Installing GUI apps (ghostty, chrome)..."
-$AUR -S --needed --noconfirm ghostty google-chrome
+# kitty replaces iTerm2. LinearMouse has no Linux equivalent — pointer
+# settings live in hypr/hyprland.lua's input block instead.
+info "Installing GUI apps (kitty, chrome)..."
+$AUR -S --needed --noconfirm kitty google-chrome
 
 # --- Shell CLI tools ----------------------------------------------------------
 # Everything .zshrc sources, evals, or aliases, plus the Neovim tooling.

@@ -1,26 +1,7 @@
-/* Cyberpunk Teal — colours taken from the pre-HyDE waybar/style.css.
-
-   bar-bg is near-transparent, which is what 9 of the 12 stock HyDE themes do.
-   The module groups (#pill, #leaf) paint themselves opaque from main-bg, so
-   the bar reads as floating islands and the gaps between them show wallpaper.
-
-   The pre-HyDE bar used 0.65 here instead, for the reason its own stylesheet
-   gave: a translucent strip plus `layerrule = blur,waybar` blurs the wallpaper
-   behind the text, and without it the text loses contrast over a busy image.
-   That tradeoff now applies to the gaps between islands. Raise this back
-   toward 0.65 to get the continuous bar back. Keep it below 1 either way, or
-   the blur has nothing to act on. */
-
-@define-color bar-bg rgba(0, 31, 48, 0.1);
-
-@define-color main-bg #001f30;
-@define-color main-fg #e6f7f5;
-
-/* Active workspace inverted to a cyan chip with bar-coloured text, which is
-   how the old #workspaces button.active rule read. */
-@define-color wb-act-bg #2cf9ed;
-@define-color wb-act-fg #001f30;
-
-/* Hover was the raised surface with cyan text, not an inversion. */
-@define-color wb-hvr-bg #003547;
-@define-color wb-hvr-fg #2cf9ed;
+@define-color bar-bg rgba(79,42,124,0.01);
+@define-color main-bg rgba(79,42,124,0.8);
+@define-color main-fg rgba(202,170,240,0.8);
+@define-color wb-act-bg rgba(233,172,242,0.4);
+@define-color wb-act-fg rgba(248,204,255,1);
+@define-color wb-hvr-bg rgba(85,75,125,0.4);
+@define-color wb-hvr-fg rgba(205,170,240,0.8);

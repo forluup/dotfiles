@@ -4,20 +4,30 @@
     // includes.json, and waybar keeps the first definition of a key it sees, so
     // what is set here wins and every key left out below still comes from HyDE.
     "hyprland/window": {
-        // Upstream is " \uf303 {0}" -- note the leading space. It adds roughly
-        // 5px to the left of the Arch glyph with nothing to match it on the
-        // right, so the pill's contents sit visibly off-centre. Dropping it
-        // leaves the padding to the CSS, which is symmetric.
+        // Upstream is " \uf303 {0}". Two changes:
         //
-        // Only titles matching no `rewrite` rule show the problem. Waybar
-        // applies rewrites to the formatted string and those rules replace it
-        // outright instead of capturing it, so a matching title loses this
-        // leading space (and the Arch glyph with it) and gains the rule's own
-        // trailing space.
+        // 1. The leading space is gone. It added ~6px to the left of the Arch
+        //    glyph with nothing to match it on the right, so the pill's
+        //    contents sat off-centre. The outer padding is symmetric in CSS,
+        //    so dropping it evens the pill up: 17/10 became 11/11.
         //
-        // The glyph is written as an escape, not pasted: U+F303 is a private
-        // use codepoint that shows as blank in most editors, which makes a
-        // literal easy to mangle.
-        "format": "\uf303 {0}"
+        // 2. The separator between the glyph and the title is U+2002
+        //    (EN SPACE) rather than a normal space, narrowing that
+        //    gap from 6px to 5px.
+        //
+        // JetBrainsMono Nerd Font does render the Unicode space variants at
+        // distinct widths despite being monospace, measured at the 10px the bar
+        // uses: U+0020 6px, U+2002 5px, U+2004 4px, U+2005 3px, U+2009 2px,
+        // U+200A 1px. Swap the escape below to retune. Closing the gap entirely
+        // is too tight -- the title's leading "." collides with the glyph.
+        //
+        // Note this only ever affected titles matching no `rewrite` rule.
+        // Waybar applies rewrites to the formatted string and those rules
+        // replace it outright instead of capturing it, so a matching title
+        // (Firefox, Chrome, Code) drops the glyph and this separator entirely.
+        //
+        // Escapes, not pasted characters: U+F303 is a private use codepoint and
+        // U+2004 is invisible, so literals are easy to mangle unnoticed.
+        "format": "\uf303\u2002{0}"
     }
 }

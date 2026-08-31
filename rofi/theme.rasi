@@ -1,12 +1,8 @@
 * {
-    /* Background carries alpha to match the translucent bar; e6 is the same
-       weight the stock HyDE themes use for rofi. */
-    main-bg:            #001f30e6;
-    main-fg:            #e6f7f5ff;
-    main-br:            #2cf9edff;
-    main-ex:            #af87ffcc;
-    select-bg:          #2cf9edff;
-    select-fg:          #001f30ff;
-    separatorcolor:     transparent;
-    border-color:       transparent;
+    main-bg:            #4F2A7CB3;
+    main-fg:            #E3CCFFE6;
+    main-br:            #9D64D5E6;
+    main-ex:            #5E49B6E6;
+    select-bg:          #E7AAF080;
+    select-fg:          #4C2952E6;
 }

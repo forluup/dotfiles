@@ -65,7 +65,7 @@ end
 local WM_MOD = "ALT" -- window management
 local LAUNCH = "SUPER" -- launching
 
-local terminal = "ghostty"
+local terminal = "kitty"
 local browser = "google-chrome-stable"
 
 -- ---------------------------------------------------------------------------
@@ -78,6 +78,16 @@ local browser = "google-chrome-stable"
 -- ---------------------------------------------------------------------------
 hl.config(
 	{
+		-- Pointer tuning. GNOME Settings writes to dconf, which only Mutter
+		-- reads, so under Hyprland these are the knobs that take effect.
+		-- sensitivity: -1.0 (slowest) .. 1.0 (fastest), 0 = untouched.
+		-- accel_profile: flat = raw 1:1, adaptive = libinput's accel curve.
+		input = {
+			kb_layout = "us",
+			follow_mouse = 0,
+			sensitivity = 0,
+			accel_profile = "flat"
+		},
 		general = {
 			gaps_in = 3,
 			gaps_out = 7,
@@ -101,7 +111,7 @@ hl.config(
 )
 
 -- ---------------------------------------------------------------------------
--- Two workspaces per monitor.
+-- Workspaces 1-2 on the left monitor, 3-6 on the right.
 --
 -- Note the call shape: hl.workspace_rule takes ONE table with the workspace as
 -- a field. The hl.workspace_rule("1", {...}) form raises no error and registers
@@ -111,6 +121,8 @@ hl.workspace_rule({workspace = "1", monitor = "HDMI-A-1", default = true})
 hl.workspace_rule({workspace = "2", monitor = "HDMI-A-1"})
 hl.workspace_rule({workspace = "3", monitor = "DP-2", default = true})
 hl.workspace_rule({workspace = "4", monitor = "DP-2"})
+hl.workspace_rule({workspace = "5", monitor = "DP-2"})
+hl.workspace_rule({workspace = "6", monitor = "DP-2"})
 
 -- ---------------------------------------------------------------------------
 -- Helpers
@@ -158,13 +170,23 @@ hl.bind(LAUNCH .. " + Return", hl.dsp.exec_cmd(terminal), _F)
 _F = {description = "[Launch] browser"}
 hl.bind(LAUNCH .. " + SHIFT + Return", hl.dsp.exec_cmd(browser), _F)
 
+-- File explorer moved off HyDE's SUPER + E. Rebinding alone is not enough:
+-- hyde.binds.dedup only replaces a bind on the *same* combo, so the original
+-- SUPER + E has to be unbound explicitly or it keeps working alongside this
+-- one. unbind matches the string the bind was registered with, hence the
+-- normalize() call rather than a hand-spelled "SUPER, E".
+hl.unbind(hyde.binds.normalize(LAUNCH .. " + E"))
+
+-- yazi, not hyde.config.app.explorer: that variable is
+-- `hyde-shell open --fall dolphin file-manager`, so going through it puts
+-- Dolphin back as a fallback. The terminal is spelled out for the same reason.
+_F = {description = "[Launch] file explorer"}
+hl.bind(LAUNCH .. " + F", hl.dsp.exec_cmd("kitty --class yazi -e yazi"), _F)
+
 -- Spotlight. Routed to HyDE's launcher rather than the old wofi call so it
 -- picks up the theme.
 _F = {description = "[Launch] application launcher"}
 hl.bind(LAUNCH .. " + SPACE", hl.dsp.exec_cmd(hyde.sh.menu.apps()), _F)
-
-_F = {description = "[Launch] eww dashboard"}
-hl.bind(LAUNCH .. " + W", hl.dsp.exec_cmd("~/.config/eww/scripts/dashboard.sh"), _F)
 
 -- macOS ctrl+cmd+Q
 _F = {description = "[Session] lock"}
@@ -214,7 +236,7 @@ for key, dir in pairs({H = "l", J = "d", K = "u", L = "r"}) do
 	hl.bind(WM_MOD .. " + SHIFT + " .. key, hl.dsp.window.swap({direction = dir}), _F)
 end
 
-for i = 1, 4 do
+for i = 1, 6 do
 	_F = {description = "[Workspaces] switch to workspace " .. i}
 	hl.bind(WM_MOD .. " + " .. i, hl.dsp.focus({workspace = i}), _F)
 
@@ -244,19 +266,47 @@ hl.bind(WM_MOD .. " + F", toggle_fullscreen(1), _F)
 _F = {description = "[Window Management] true fullscreen"}
 hl.bind(WM_MOD .. " + SHIFT + F", toggle_fullscreen(2), _F)
 
--- Float, half size, centred -- one batch so the window does not visibly jump
--- through the intermediate sizes.
+-- Float, half size, centred. Was a `hyprctl --batch "dispatch ..."` string,
+-- which the Lua config provider cannot parse (see the minimize binds below);
+-- as a Lua function the three steps run in-process, so there is no visible
+-- jump through the intermediate sizes either.
+--
+-- hl.dsp.window.resize takes pixels, not the "50%" the old exact resize used,
+-- so the half is computed from the monitor. Dispatchers called from inside a
+-- function must be handed to hl.dispatch: calling the builder directly, the
+-- way HyDE's own key_binds.lua does, returns nil and dispatches nothing.
+local float_half_centred = function()
+	hl.dispatch(hl.dsp.window.float({action = "toggle"}))
+	if not hl.get_active_window().floating then
+		return -- was floating, is now tiled: nothing to size or centre
+	end
+	local m = hl.get_active_monitor()
+	hl.dispatch(hl.dsp.window.resize({x = math.floor(m.width / m.scale / 2), y = math.floor(m.height / m.scale / 2)}))
+	hl.dispatch(hl.dsp.window.center())
+end
+
 _F = {description = "[Window Management] float window centred at half size"}
-hl.bind(
-	WM_MOD .. " + T",
-	hl.dsp.exec_cmd(
-		'hyprctl --batch "dispatch togglefloating ; dispatch resizeactive exact 50% 50% ; dispatch centerwindow"'
-	),
-	_F
-)
+hl.bind(WM_MOD .. " + T", float_half_centred, _F)
+
+-- Float every window here, or tile them all again if they are already floating.
+-- The Lua API has no workspaceopt dispatcher, so this walks the workspace
+-- instead. Unlike workspaceopt allfloat it sets no mode on the workspace:
+-- windows opened afterwards tile as usual.
+local toggle_all_float = function()
+	local windows = hl.get_workspace_windows(hl.get_active_workspace().id)
+	local any_tiled = false
+	for _, w in ipairs(windows) do
+		if not w.floating then
+			any_tiled = true
+		end
+	end
+	for _, w in ipairs(windows) do
+		hl.dispatch(hl.dsp.window.float({action = any_tiled and "on" or "off", window = "address:" .. w.address}))
+	end
+end
 
 _F = {description = "[Window Management] float every window on this workspace"}
-hl.bind("CTRL + ALT + D", hl.dsp.exec_cmd("hyprctl dispatch workspaceopt allfloat"), _F)
+hl.bind("CTRL + ALT + D", toggle_all_float, _F)
 
 -- Resize, held. `repeating` is the flag HyDE uses for its own held binds and is
 -- the Lua equivalent of `binde`.
@@ -275,3 +325,28 @@ hl.bind(WM_MOD .. " + G", hl.dsp.exec_cmd("~/.config/hypr/gaps.sh +"), _F)
 
 _F = {description = "[Window Management] decrease gaps", repeating = true}
 hl.bind(WM_MOD .. " + SHIFT + G", hl.dsp.exec_cmd("~/.config/hypr/gaps.sh -"), _F)
+
+-- Minimize, by way of a named special workspace. Hyprland has no iconified
+-- window state, so "minimized" is a scratchpad the window is parked on: hidden
+-- until the overlay is toggled, then pulled back out onto a real workspace.
+--
+-- The name keeps this separate from HyDE's own scratchpad on SUPER + S, which
+-- uses the unnamed `special`.
+--
+-- These must use the hl.dsp dispatchers, not exec_cmd("hyprctl dispatch ..."):
+-- under the Lua config provider `hyprctl dispatch` evaluates its argument as
+-- Lua, so a bare dispatcher name is a syntax error at keypress time and the
+-- bind silently does nothing.
+_F = {description = "[Window Management] minimize window to the scratchpad"}
+hl.bind(WM_MOD .. " + M", hl.dsp.window.move({workspace = "special:minimized", follow = false}), _F)
+
+-- The special workspace name goes in positionally. toggle_special({name = ...})
+-- is accepted but ignores the name and opens the unnamed `special` instead.
+_F = {description = "[Window Management] show/hide minimized windows"}
+hl.bind(WM_MOD .. " + SHIFT + M", hl.dsp.workspace.toggle_special("minimized"), _F)
+
+-- Restore: `e+0` is the focused monitor's normal workspace, so the window lands
+-- wherever you are rather than on the one it was minimized from. The overlay
+-- closes on its own once the last window leaves.
+_F = {description = "[Window Management] restore minimized window to this workspace"}
+hl.bind(WM_MOD .. " + CTRL + M", hl.dsp.window.move({workspace = "e+0"}), _F)

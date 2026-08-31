@@ -32,10 +32,9 @@ shell, editor and CLI config and the same cyberpunk-neon palette.
 
 | Directory | Tool | Description |
 |-----------|------|-------------|
-| `hypr/` | [Hyprland](https://hyprland.org) | Tiling compositor — `hyprland.conf` (ports yabai + skhd), `hyprlock.conf`, `hypridle.conf`, `gaps.sh` |
+| `hypr/` | [Hyprland](https://hyprland.org) | Tiling compositor — `hyprland.lua` (ports yabai + skhd), `hyprlock.conf`, `hypridle.conf`, `gaps.sh` |
 | `waybar/` | [Waybar](https://github.com/Alexays/Waybar) | Status bar — a port of the SketchyBar layout and teal scheme |
 | `wofi/` | [wofi](https://hg.sr.ht/~scoopta/wofi) | Launcher (Spotlight replacement) and clipboard-history picker |
-| `eww/` | [eww](https://github.com/elkowar/eww) | Desktop widgets — clock, calendar, weather, CPU/RAM/disk, now-playing |
 | `mako/` | [mako](https://github.com/emersion/mako) | Notification daemon |
 | `ghostty/` | [Ghostty](https://ghostty.org) | Terminal (iTerm2 replacement) |
 
@@ -68,7 +67,7 @@ newer, and the sole option on Blackwell/RTX 50xx), puts the modules in the
 initramfs, and adds `nvidia_drm.modeset=1` to the kernel command line, which
 Wayland needs. It backs up `mkinitcpio.conf` and `/etc/default/grub` first and
 skips each step if already done. **Reboot before starting Hyprland** so the
-modules load. The matching `env =` lines are in `hypr/hyprland.conf`. The whole
+modules load. The matching env lines are in `hypr/hyprland.lua`. The whole
 section is guarded on `lspci`, so it is a no-op on non-NVIDIA hardware.
 
 Then log out of the TTY and back in — `install-arch.sh` runs `chsh`, so zsh
@@ -115,7 +114,7 @@ it, none of the zsh config loads.
 
 ### Linux: how the macOS keybinds map over
 
-`hypr/hyprland.conf` keeps the muscle memory 1:1 — macOS `cmd` becomes `SUPER`
+`hypr/hyprland.lua` keeps the muscle memory 1:1 — macOS `cmd` becomes `SUPER`
 (`$launch`), macOS `alt` becomes `ALT` (`$mod`). Both are variables at the top
 of the file, so swapping them is a two-line change.
 
@@ -144,7 +143,6 @@ of the file, so swapping them is a two-line change.
 | `cmd+shift+4` / `3` screenshot | `SUPER+SHIFT+4` / `3` | grim + slurp → `wl-copy` |
 | `ctrl+cmd+q` lock | `SUPER+CTRL+Q` hyprlock | |
 | — | `SUPER+V` | cliphist clipboard history |
-| — | `SUPER+W` | toggle the eww desktop widgets |
 
 Four skhd binds have no Hyprland counterpart and were dropped: `alt+q`
 (`space --destroy` — workspaces are dynamic), `alt+y` (`mirror y-axis`),
@@ -157,23 +155,10 @@ Also gone, because Hyprland or Wayland does it natively: yabai's
 (a macOS bug that doesn't exist here).
 
 Not ported: `linearmouse/` (no Linux equivalent — pointer and touchpad settings
-live in `hyprland.conf`'s `input {}` block) and `iterm2/` (which only ever held
+live in `hyprland.lua`'s input block) and `iterm2/` (which only ever held
 gitignored machine-local symlinks).
 
-### Desktop widgets
-
-`eww/` puts a clock, calendar, weather, CPU/RAM/disk meters and a now-playing
-strip on the desktop. They sit on the **background layer**, so tiled windows
-cover them — you see them on an empty workspace, which is what a desktop widget
-means in a tiling WM. `SUPER+W` toggles them; change `:stacking "bg"` to `"fg"`
-on a window in `eww.yuck` to float it over windows instead.
-
-The CPU, RAM and disk readings use eww's built-in `EWW_CPU` / `EWW_RAM` /
-`EWW_DISK` variables, so there are no polling scripts. Weather comes from
-`wttr.in`, which needs no API key and geolocates by IP; now-playing reads
-Spotify through `playerctl`, matching the waybar `mpris` module.
-
-Unlike the Material You rices this layout is borrowed from, the palette is
+Unlike the Material You rices that inspired this port, the palette is
 fixed rather than generated from the wallpaper — it has to stay in step with
 bat, fzf, eza, zsh-syntax-highlighting and ghostty.
 
@@ -192,7 +177,7 @@ brew install zsh-autosuggestions zsh-history-substring-search
 Arch:
 
 ```sh
-paru -S hyprland hyprlock hypridle waybar wofi mako eww ghostty
+paru -S hyprland hyprlock hypridle waybar wofi mako ghostty
 paru -S grim slurp wl-clipboard cliphist swayosd-git playerctl brightnessctl
 paru -S neovim fish ttf-hack-nerd
 paru -S atuin bat eza fzf fd ripgrep zoxide git-delta direnv jq github-cli lazygit
@@ -216,6 +201,6 @@ brew services start sketchybar
 For SketchyBar, see `sketchybar/install.sh` for fonts and dependencies.
 
 On Arch there is nothing to start: waybar, mako, hypridle and swayosd-server
-are all launched from `exec-once` lines in `hypr/hyprland.conf`. The only
+are all launched from `exec-once` lines in `hypr/hyprland.lua`. The only
 systemd units are `NetworkManager` and `swayosd-libinput-backend` (which lets
 the volume/brightness keys work without root).
